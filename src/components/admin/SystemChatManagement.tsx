@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 
-const SYSTEM_MESSAGES_URL = 'https://functions.poehali.dev/a7b8d7b8-eb5d-4ecc-ac30-8672db766806';
-
 interface SystemMessage {
   id: string;
   text: string;
