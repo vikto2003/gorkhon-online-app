@@ -177,27 +177,27 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
       
       <div className="relative w-full max-w-2xl bg-white rounded-t-3xl md:rounded-3xl shadow-2xl overflow-hidden h-[92vh] md:h-auto flex flex-col"
         style={{paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 0px)'}}>
-        <div className="bg-gradient-to-r from-purple-500 via-violet-600 to-purple-600 p-6 text-white">
+        <div className="bg-white border-b border-wb-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
-                <Icon name="Bot" size={24} className="text-white" />
+              <div className="w-10 h-10 bg-wb-purple/10 rounded-lg flex items-center justify-center">
+                <Icon name="Bot" size={20} className="text-wb-purple" />
               </div>
               <div>
-                <h2 className="text-xl font-bold">Лина - помощник по сайту</h2>
-                <p className="text-purple-100 text-sm">Не ищу в интернете • Только функции сайта</p>
+                <h2 className="text-lg font-semibold text-wb-gray-900">Лина - помощник по сайту</h2>
+                <p className="text-wb-gray-600 text-xs">Не ищу в интернете • Только функции сайта</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              className="w-9 h-9 rounded-lg hover:bg-wb-gray-100 flex items-center justify-center transition-colors"
             >
-              <Icon name="X" size={20} className="text-white" />
+              <Icon name="X" size={18} className="text-wb-gray-600" />
             </button>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:h-96">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-wb-gray-50">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -205,14 +205,14 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
             >
               <div className="max-w-[80%] flex flex-col gap-2">
                 <div
-                  className={`rounded-2xl px-4 py-3 ${
+                  className={`rounded-xl px-4 py-3 ${
                     message.isUser
-                      ? 'bg-gradient-to-r from-purple-500 to-violet-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-wb-purple text-white'
+                      : 'bg-white border border-wb-gray-200 text-wb-gray-900'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
-                  <p className={`text-xs mt-2 ${message.isUser ? 'text-purple-200' : 'text-gray-500'}`}>
+                  <p className={`text-xs mt-2 ${message.isUser ? 'text-white/80' : 'text-wb-gray-500'}`}>
                     {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
@@ -221,9 +221,9 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
                     href="https://forms.yandex.ru/u/687f5b9a84227c08790f3222"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2.5 bg-white border-2 border-purple-500 text-purple-600 rounded-xl hover:bg-purple-50 transition-colors text-sm font-medium"
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-wb-purple text-white rounded-lg hover:bg-wb-purple-dark transition-colors text-sm font-medium"
                   >
-                    <Icon name="MessageCircle" size={16} />
+                    <Icon name="Send" size={16} />
                     Написать специалисту
                   </a>
                 )}
@@ -233,11 +233,11 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
           
           {isTyping && (
             <div className="flex justify-start">
-              <div className="bg-gray-100 rounded-2xl px-4 py-3">
+              <div className="bg-white border border-wb-gray-200 rounded-xl px-4 py-3">
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div className="w-2 h-2 bg-wb-purple rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-wb-purple rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-wb-purple rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
@@ -246,7 +246,7 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-3 md:p-4 border-t bg-gray-50">
+        <div className="p-3 md:p-4 border-t border-wb-gray-200 bg-white">
           <div className="flex gap-2">
             <input
               type="text"
@@ -254,11 +254,11 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Вопрос о сайте..."
-              className="flex-1 px-3 md:px-4 py-2.5 md:py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
+              className="flex-1 px-4 py-3 rounded-lg border border-wb-gray-300 focus:outline-none focus:border-wb-purple focus:ring-1 focus:ring-wb-purple text-sm"
             />
             <button
               onClick={handleSend}
-              className="px-4 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-xl hover:shadow-lg transition-all font-medium text-sm md:text-base min-w-[80px] md:min-w-0"
+              className="px-4 md:px-6 py-3 bg-wb-purple hover:bg-wb-purple-dark text-white rounded-lg transition-colors font-medium text-sm min-w-[80px] md:min-w-0"
             >
               <span className="hidden md:inline">Отправить</span>
               <Icon name="Send" size={18} className="md:hidden" />

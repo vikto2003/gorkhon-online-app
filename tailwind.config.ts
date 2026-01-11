@@ -73,6 +73,20 @@ export default {
 					green: '#00BE6C',
 					orange: '#FFA800'
 				},
+				wb: {
+					purple: '#CB11AB',
+					'purple-dark': '#A91590',
+					'purple-light': '#E040D2',
+					gray: {
+						50: '#FAFAFA',
+						100: '#F5F5F5',
+						200: '#EEEEEE',
+						300: '#E0E0E0',
+						600: '#757575',
+						800: '#424242',
+						900: '#212121'
+					}
+				},
 
 				ral: {
 					7047: '#D0D0D0'

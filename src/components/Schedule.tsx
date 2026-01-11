@@ -35,43 +35,34 @@ const Schedule = () => {
   ];
 
   return (
-    <Card data-tutorial="city-map" className="rounded-2xl md:rounded-3xl bg-gradient-to-br from-white to-orange-50/30 border-0 shadow-sm md:shadow-xl transition-all duration-300 overflow-hidden relative group">
-      {/* Декоративные элементы */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gorkhon-orange/10 to-transparent rounded-full -translate-y-20 translate-x-20 group-hover:scale-150 transition-transform duration-700"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-amber-500/10 to-transparent rounded-full translate-y-16 -translate-x-16 group-hover:scale-125 transition-transform duration-700"></div>
-      
-      <CardHeader className="p-5 md:p-7 relative z-10 bg-gradient-to-r from-gorkhon-orange/5 to-transparent border-b-0">
-        <CardTitle className="flex items-center gap-3 md:gap-4">
-          <div className="p-3 md:p-3.5 rounded-2xl bg-gradient-to-br from-gorkhon-orange to-gorkhon-orange/80 shadow-lg shadow-gorkhon-orange/20 flex-shrink-0">
-            <Icon name="Bus" size={22} className="md:w-7 md:h-7 text-white" />
+    <Card data-tutorial="city-map" className="rounded-xl bg-white border border-wb-gray-200 shadow-sm transition-all duration-200">
+      <CardHeader className="p-4 md:p-5 border-b border-wb-gray-100">
+        <CardTitle className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-wb-purple/10 flex-shrink-0">
+            <Icon name="Bus" size={20} className="text-wb-purple" />
           </div>
           <div className="min-w-0">
-            <span className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">Расписание транспорта</span>
-            <p className="text-xs md:text-sm text-gray-600 font-medium mt-1 md:mt-1.5 hidden sm:block">Путешествуйте с комфортом 360°</p>
+            <span className="text-lg md:text-xl font-semibold text-wb-gray-900">Расписание транспорта</span>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-4 md:p-7 space-y-4 md:space-y-6 relative z-10">
+      <CardContent className="p-3 md:p-5 space-y-4">
         {scheduleData.map((transport, index) => (
-          <div key={index} className="group/section">
-            <div className="flex items-center gap-2.5 md:gap-3 mb-3 md:mb-4">
-              <div className="p-2 md:p-2.5 rounded-xl bg-gradient-to-br from-gorkhon-orange/15 to-gorkhon-orange/5 flex-shrink-0 border border-gorkhon-orange/10">
-                <span className="text-lg md:text-xl">{transport.type.split(' ')[0]}</span>
-              </div>
-              <h4 className="font-bold text-base md:text-lg text-gray-900">
+          <div key={index}>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-base">{transport.type.split(' ')[0]}</span>
+              <h4 className="font-semibold text-sm md:text-base text-wb-gray-900">
                 {transport.type.split(' ').slice(1).join(' ')}
               </h4>
             </div>
             
-            <div className="space-y-2.5 md:space-y-3">
+            <div className="space-y-2">
               {transport.routes.map((route, routeIndex) => (
-                <div key={routeIndex} className="group/route flex justify-between items-center p-3.5 md:p-5 rounded-2xl bg-white hover:bg-gradient-to-r hover:from-white hover:to-orange-50/50 transition-all duration-300 border border-gray-100 hover:border-gorkhon-orange/30 hover:shadow-md hover:scale-[1.02]">
-                  <div className="space-y-1.5 flex-1 min-w-0">
+                <div key={routeIndex} className="flex justify-between items-center p-3 md:p-4 rounded-lg bg-wb-gray-50 hover:bg-wb-gray-100 transition-colors duration-150">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <div className="p-1 rounded-lg bg-gorkhon-orange/10">
-                        <Icon name="MapPin" size={14} className="text-gorkhon-orange flex-shrink-0" />
-                      </div>
-                      <p className="text-sm md:text-base font-bold text-gray-900 truncate">
+                      <Icon name="MapPin" size={14} className="text-wb-gray-600 flex-shrink-0" />
+                      <p className="text-sm md:text-base font-semibold text-wb-gray-900 truncate">
                         {route.route}
                       </p>
                     </div>

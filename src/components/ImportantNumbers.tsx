@@ -102,36 +102,35 @@ const ImportantNumbers = () => {
   }, []);
 
   return (
-    <Card className="rounded-2xl md:rounded-3xl bg-gradient-to-br from-white to-gray-50 border-0 shadow-sm transition-all duration-300">
-      <CardHeader className="p-5 md:p-7 border-b-0 bg-gradient-to-r from-gorkhon-blue/5 to-transparent">
-        <CardTitle className="flex items-center gap-3 md:gap-4">
-          <div className="p-3 md:p-3.5 rounded-2xl bg-gradient-to-br from-gorkhon-blue to-gorkhon-blue/80 shadow-lg shadow-gorkhon-blue/20 flex-shrink-0">
-            <Icon name="Phone" size={22} className="md:w-7 md:h-7 text-white" />
+    <Card className="rounded-xl bg-white border border-wb-gray-200 shadow-sm transition-all duration-200">
+      <CardHeader className="p-4 md:p-5 border-b border-wb-gray-100">
+        <CardTitle className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-wb-purple/10 flex-shrink-0">
+            <Icon name="Phone" size={20} className="text-wb-purple" />
           </div>
           <div className="min-w-0">
-            <span className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">Важные номера</span>
-            <p className="text-xs md:text-sm text-gray-600 font-medium mt-1 md:mt-1.5 hidden sm:block">Всегда под рукой в трудную минуту</p>
+            <span className="text-lg md:text-xl font-semibold text-wb-gray-900">Важные номера</span>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-3 md:p-7 space-y-2 md:space-y-3">
+      <CardContent className="p-3 md:p-5 space-y-2">
         {importantNumbers.map((contact, index) => (
-          <div key={index} className="group p-4 md:p-5 rounded-2xl bg-white active:bg-gray-50 transition-all duration-200 border border-gray-100 active:border-gorkhon-blue/30 shadow-sm active:shadow-md">
+          <div key={index} className="group p-3 md:p-4 rounded-lg bg-wb-gray-50 hover:bg-wb-gray-100 active:bg-wb-gray-100 transition-all duration-150 border border-transparent hover:border-wb-gray-200">
             <div className="flex items-center gap-3 md:gap-4 w-full">
-              <div className="flex items-center gap-2.5 md:gap-3.5 flex-1 min-w-0 overflow-hidden">
-                <div className="p-3 md:p-3 rounded-xl bg-gradient-to-br from-gorkhon-blue/10 to-gorkhon-blue/5 border border-gorkhon-blue/10 flex-shrink-0">
-                  <Icon name={contact.icon} size={20} className="md:w-5 md:h-5 text-gorkhon-blue" />
+              <div className="flex items-center gap-2.5 md:gap-3 flex-1 min-w-0 overflow-hidden">
+                <div className="p-2 rounded-lg bg-white flex-shrink-0">
+                  <Icon name={contact.icon} size={18} className="text-wb-gray-600" />
                 </div>
                 <div className="flex-1 min-w-0 overflow-hidden">
-                  <p className="font-bold text-base md:text-base text-gray-900 truncate leading-tight">{contact.name}</p>
-                  <p className="text-sm md:text-sm text-gray-600 truncate mt-1 leading-tight">{contact.person}</p>
-                  {contact.phone && <p className="text-xs text-gray-500 font-mono truncate mt-1.5">{contact.phone}</p>}
+                  <p className="font-semibold text-sm md:text-base text-wb-gray-900 truncate">{contact.name}</p>
+                  <p className="text-xs md:text-sm text-wb-gray-600 truncate mt-0.5">{contact.person}</p>
+                  {contact.phone && <p className="text-xs text-wb-gray-500 font-mono truncate mt-1">{contact.phone}</p>}
                 </div>
               </div>
               {contact.phone && (
                 <Button 
                   size="sm" 
-                  className="bg-gradient-to-r from-gorkhon-pink to-gorkhon-pink/90 active:from-gorkhon-pink/80 active:to-gorkhon-pink/70 text-white p-0 h-12 md:h-10 rounded-xl text-sm flex-shrink-0 w-12 md:w-auto md:px-5 shadow-lg shadow-gorkhon-pink/25 active:shadow-sm transition-all duration-200"
+                  className="bg-wb-purple hover:bg-wb-purple-dark active:bg-wb-purple-dark text-white p-0 h-10 rounded-lg text-sm flex-shrink-0 w-10 md:w-auto md:px-4 transition-colors duration-150"
                   onClick={() => window.open(`tel:${contact.phone}`, '_self')}
                 >
                   <Icon name="Phone" size={20} className="md:w-4 md:h-4" />

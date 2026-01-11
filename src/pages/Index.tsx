@@ -100,15 +100,15 @@ const Index = () => {
   return (
     <>
       <SplashScreen />
-      <div className="min-h-screen bg-white relative overflow-x-hidden w-full max-w-full">
+      <div className="min-h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full">
         
         <Header 
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}
         />
 
-        <div className="flex pt-20 md:pt-24">
-          <main className="flex-1 bg-gray-50 min-h-screen relative z-10 overflow-x-hidden">
+        <div className="flex pt-16 md:pt-16">
+          <main className="flex-1 bg-wb-gray-50 min-h-screen relative z-10 overflow-x-hidden">
             <div className="max-w-full md:max-w-2xl mx-auto px-4 py-4 md:p-4 space-y-4 md:space-y-6 pb-24 md:pb-4">
               <Home onOpenPhotoCarousel={openPhotoCarousel} />
               
