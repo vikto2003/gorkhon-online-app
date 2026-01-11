@@ -203,17 +203,30 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
               key={message.id}
               className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  message.isUser
-                    ? 'bg-gradient-to-r from-purple-500 to-violet-600 text-white'
-                    : 'bg-gray-100 text-gray-800'
-                }`}
-              >
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
-                <p className={`text-xs mt-2 ${message.isUser ? 'text-purple-200' : 'text-gray-500'}`}>
-                  {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
-                </p>
+              <div className="max-w-[80%] flex flex-col gap-2">
+                <div
+                  className={`rounded-2xl px-4 py-3 ${
+                    message.isUser
+                      ? 'bg-gradient-to-r from-purple-500 to-violet-600 text-white'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}
+                >
+                  <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
+                  <p className={`text-xs mt-2 ${message.isUser ? 'text-purple-200' : 'text-gray-500'}`}>
+                    {message.timestamp.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+                {!message.isUser && (
+                  <a
+                    href="https://forms.yandex.ru/u/687f5b9a84227c08790f3222"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2.5 bg-white border-2 border-purple-500 text-purple-600 rounded-xl hover:bg-purple-50 transition-colors text-sm font-medium"
+                  >
+                    <Icon name="MessageCircle" size={16} />
+                    Написать специалисту
+                  </a>
+                )}
               </div>
             </div>
           ))}
