@@ -1,6 +1,7 @@
 import { useState, useEffect, memo, useMemo, useCallback } from 'react';
 import ImportantNumbers from "@/components/ImportantNumbers";
 import Schedule from "@/components/Schedule";
+import ChatsSection from "@/components/ChatsSection";
 import DonationSection from "@/components/DonationSection";
 import WorkSchedule from "@/components/WorkSchedule";
 import PvzSection from "@/components/PvzSection";
@@ -30,11 +31,12 @@ interface HomeProps {
 const getDefaultSections = (): SectionConfig[] => [
   { id: 'importantNumbers', name: 'Важные номера', enabled: true, order: 1, description: 'Контакты экстренных служб и организаций' },
   { id: 'schedule', name: 'Расписание транспорта', enabled: true, order: 2, description: 'Автобусы и транспорт' },
-  { id: 'donation', name: 'Сбор средств', enabled: true, order: 3, description: 'Благотворительные сборы' },
-  { id: 'workSchedule', name: 'Режим работы', enabled: true, order: 4, description: 'График работы организаций' },
-  { id: 'weather', name: 'Погода', enabled: true, order: 5, description: 'Прогноз погоды' },
-  { id: 'pvz', name: 'ПВЗ и фото', enabled: true, order: 6, description: 'Пункты выдачи заказов и фотогалерея' },
-  { id: 'actionButtons', name: 'Быстрые действия', enabled: true, order: 7, description: 'Кнопки быстрого доступа' }
+  { id: 'chats', name: 'Чаты', enabled: true, order: 3, description: 'Мессенджеры и группы' },
+  { id: 'donation', name: 'Сбор средств', enabled: true, order: 4, description: 'Благотворительные сборы' },
+  { id: 'workSchedule', name: 'Режим работы', enabled: true, order: 5, description: 'График работы организаций' },
+  { id: 'weather', name: 'Погода', enabled: true, order: 6, description: 'Прогноз погоды' },
+  { id: 'pvz', name: 'ПВЗ и фото', enabled: true, order: 7, description: 'Пункты выдачи заказов и фотогалерея' },
+  { id: 'actionButtons', name: 'Быстрые действия', enabled: true, order: 8, description: 'Кнопки быстрого доступа' }
 ];
 
 const Home = ({ onOpenPhotoCarousel }: HomeProps) => {
@@ -77,6 +79,8 @@ const Home = ({ onOpenPhotoCarousel }: HomeProps) => {
           return <ImportantNumbers data-tutorial="search-input" />;
         case 'schedule':
           return <Schedule data-tutorial="categories" />;
+        case 'chats':
+          return <ChatsSection />;
         case 'donation':
           return <DonationSection />;
         case 'workSchedule':
