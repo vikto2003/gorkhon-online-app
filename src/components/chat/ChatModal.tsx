@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 import ChannelProfile from "./ChannelProfile";
+import { getSmartResponse } from "@/components/LinaAssistant";
 
 interface ChatMessage {
   text: string;
@@ -173,7 +174,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
       setChatInput('');
       
       const aiResponse = {
-        text: 'Извините, функция временно недоступна.',
+        text: getSmartResponse(userMsg),
         needsWebSearch: false,
         searchQuery: ''
       };
