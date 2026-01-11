@@ -13,28 +13,7 @@ interface Message {
   timestamp: Date;
 }
 
-export default function LinaAssistant({ onClose }: LinaAssistantProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: 'Привет! Я Лина 👋\n\n🤖 Я помощник по САЙТУ Горхон.Online:\n• Объясню функции сайта\n• Покажу разделы\n• Помогу с навигацией\n• Отвечу на вопросы\n\n⚠️ ВАЖНО: Я НЕ ищу информацию в интернете!\nДля этого используйте Яндекс или Google.',
-      isUser: false,
-      timestamp: new Date()
-    }
-  ]);
-  const [inputText, setInputText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const getSmartResponse = (input: string): string => {
+export const getSmartResponse = (input: string): string => {
     const lowerInput = input.toLowerCase();
     
     // Яндекс сервисы
@@ -128,7 +107,26 @@ export default function LinaAssistant({ onClose }: LinaAssistantProps) {
     return contextResponses[Math.floor(Math.random() * contextResponses.length)];
   };
 
-export { getSmartResponse };
+export default function LinaAssistant({ onClose }: LinaAssistantProps) {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      text: 'Привет! Я Лина 👋\n\n🤖 Я помощник по САЙТУ Горхон.Online:\n• Объясню функции сайта\n• Покажу разделы\n• Помогу с навигацией\n• Отвечу на вопросы\n\n⚠️ ВАЖНО: Я НЕ ищу информацию в интернете!\nДля этого используйте Яндекс или Google.',
+      isUser: false,
+      timestamp: new Date()
+    }
+  ]);
+  const [inputText, setInputText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const playMessageSound = () => {
     const audio = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADhAC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7v/////////////////////////////////////////////////////////////////AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAA4SC+vk2AAAAAAD/+xDEAAPAAAGkAAAAIAAANIAAAARMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
