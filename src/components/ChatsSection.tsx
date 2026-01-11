@@ -58,6 +58,21 @@ const ChatsSection = () => {
             </div>
           </a>
         ))}
+
+        <div className="mt-4 p-3 md:p-4 rounded-lg bg-wb-purple/5 border border-wb-purple/20">
+          <div className="flex items-start gap-2">
+            <Icon name="Info" size={16} className="text-wb-purple flex-shrink-0 mt-0.5" />
+            <p className="text-xs md:text-sm text-wb-gray-700 leading-relaxed">
+              Для добавления чата на витрину платформы обратитесь по электронной почте:{" "}
+              <a 
+                href="mailto:admin@gorhon.ru" 
+                className="text-wb-purple hover:text-wb-purple-dark font-medium underline"
+              >
+                admin@gorhon.ru
+              </a>
+            </p>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
