@@ -11,11 +11,12 @@ const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
       <div className="shadow-sm backdrop-blur-sm bg-white border-b border-gray-200" style={{paddingTop: 'max(env(safe-area-inset-top, 0px), 0px)'}}>
         <div className="px-4 py-3 md:py-3.5 flex items-center justify-between">
           <div className="md:hidden flex items-center justify-center w-full relative">
-            <img 
-              src="https://cdn.poehali.dev/files/412f3baa-4662-472a-9072-a6d85f527a4e.png" 
-              alt="Горхон.Online" 
-              className="h-11 w-auto object-contain drop-shadow-sm"
-            />
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-wb-purple rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">Г</span>
+              </div>
+              <span className="text-xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
+            </div>
             <button 
               onClick={onMenuClick}
               className="absolute right-0 text-wb-purple p-3 -m-2 active:bg-gray-100 rounded-xl transition-all duration-200 active:scale-95 min-w-[48px] min-h-[48px] flex items-center justify-center"
@@ -26,12 +27,11 @@ const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
           </div>
         
           <div className="hidden md:flex items-center justify-between max-w-4xl mx-auto w-full">
-            <div className="flex items-center gap-3">
-              <img 
-                src="https://cdn.poehali.dev/files/1a1a192c-75b6-4f34-a536-33e715eec24e.png" 
-                alt="Горхон.Online" 
-                className="h-14 w-auto object-contain"
-              />
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 bg-wb-purple rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">Г</span>
+              </div>
+              <span className="text-2xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
             </div>
             <button 
               onClick={onMenuClick}
