@@ -11,12 +11,7 @@ const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
       <div className="shadow-sm backdrop-blur-sm bg-white border-b border-gray-200" style={{paddingTop: 'max(env(safe-area-inset-top, 0px), 0px)'}}>
         <div className="px-4 py-3 md:py-3.5 flex items-center justify-between">
           <div className="md:hidden flex items-center justify-center w-full relative">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-wb-purple rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Г</span>
-              </div>
-              <span className="text-xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
-            </div>
+            <span className="text-xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
             <button 
               onClick={onMenuClick}
               className="absolute right-0 text-wb-purple p-3 -m-2 active:bg-gray-100 rounded-xl transition-all duration-200 active:scale-95 min-w-[48px] min-h-[48px] flex items-center justify-center"
@@ -27,12 +22,7 @@ const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
           </div>
         
           <div className="hidden md:flex items-center justify-between max-w-4xl mx-auto w-full">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 bg-wb-purple rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">Г</span>
-              </div>
-              <span className="text-2xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
-            </div>
+            <span className="text-2xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
             <button 
               onClick={onMenuClick}
               className="text-wb-purple p-2 hover:bg-gray-100 rounded-lg transition-colors"
