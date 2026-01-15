@@ -21,8 +21,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     if (!isSystemChat) {
       return [
-        {text: 'Привет! 👋\n\nЯ — Лина, ИИ-ассистент Горхон.Online. Отвечу на вопросы о посёлке, подскажу контакты, найду информацию.\n\nЧем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })},
-        {text: 'Если нужна помощь живого специалиста, нажмите кнопку ниже:', sender: 'support', showAgentButton: true, timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+        {text: 'Привет! 👋\n\nЯ — Лина, твой ИИ-помощник Горхон.Online!\n\nМогу:\n• Ответить на вопросы о посёлке\n• Подсказать контакты и расписания\n• Помочь с техническими проблемами\n• Просто поболтать 😊\n\nЧем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
       ];
     }
     return [];
@@ -173,29 +172,45 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
       playSendSound();
       setChatMessages(prev => [...prev, {text: userMsg, sender: 'user', timestamp: getCurrentTime()}]);
       setChatInput('');
+      setIsLoading(true);
       
-      const aiResponse = {
-        text: getSmartResponse(userMsg),
-        needsWebSearch: false,
-        searchQuery: ''
-      };
-      
-      if (aiResponse.needsWebSearch) {
+      try {
+        const response = await fetch('https://functions.poehali.dev/e4be3d7a-182c-4c4c-a31f-fe79ef32def1', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: userMsg,
+            history: chatMessages.slice(-10)
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.message) {
+          setChatMessages(prev => [...prev, {
+            text: data.message,
+            sender: 'support',
+            timestamp: getCurrentTime()
+          }]);
+        } else {
+          setChatMessages(prev => [...prev, {
+            text: 'Извините, произошла ошибка. Попробуйте ещё раз! 😔',
+            sender: 'support',
+            timestamp: getCurrentTime()
+          }]);
+        }
+      } catch (error) {
+        console.error('Ошибка связи с Линой:', error);
+        const fallbackResponse = getSmartResponse(userMsg);
         setChatMessages(prev => [...prev, {
-          text: 'Извините, поиск в интернете временно недоступен. Могу помочь с вопросами о Горхоне и важными контактами!',
+          text: fallbackResponse,
           sender: 'support',
           timestamp: getCurrentTime()
         }]);
-      } else {
-        setTimeout(() => {
-          setChatMessages(prev => [...prev, {
-            text: aiResponse.text,
-            sender: 'support',
-            showAgentButton: aiResponse.showAgentButton,
-            showAdminLink: aiResponse.showAdminLink,
-            timestamp: getCurrentTime()
-          }]);
-        }, 800);
+      } finally {
+        setIsLoading(false);
       }
     }
   };

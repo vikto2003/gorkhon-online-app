@@ -1,0 +1,31 @@
+{
+  "tests": [
+    {
+      "name": "Тест приветствия",
+      "method": "POST",
+      "body": {
+        "message": "Привет!",
+        "history": []
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "message": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Тест пустого сообщения",
+      "method": "POST",
+      "body": {
+        "message": "",
+        "history": []
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
