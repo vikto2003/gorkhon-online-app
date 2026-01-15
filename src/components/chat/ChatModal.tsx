@@ -21,7 +21,8 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     if (!isSystemChat) {
       return [
-        {text: 'Привет! 👋\n\nЯ — Лина, ИИ-ассистент Горхон.Online. Отвечу на вопросы о посёлке, подскажу контакты, найду информацию.\n\nЧем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+        {text: 'Привет! 👋\n\nЯ — Лина, ИИ-ассистент Горхон.Online. Отвечу на вопросы о посёлке, подскажу контакты, найду информацию.\n\nЧем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })},
+        {text: 'Если нужна помощь живого специалиста, нажмите кнопку ниже:', sender: 'support', showAgentButton: true, timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
       ];
     }
     return [];
@@ -303,13 +304,13 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                   </div>
                   {msg.showAgentButton && (
                     <a
-                      href="https://forms.yandex.ru/u/687f5b9a84227c08790f3222/"
+                      href="https://vk.com/im?entrypoint=community_page&media=&sel=-214224996"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 mt-3 px-4 py-2.5 bg-gorkhon-pink text-white rounded-xl hover:bg-gorkhon-pink/90 transition-colors shadow-sm"
                     >
                       <Icon name="UserCircle" size={18} />
-                      <span className="text-sm font-medium">Написать агенту</span>
+                      <span className="text-sm font-medium">Написать специалисту</span>
                     </a>
                   )}
                   {msg.showAdminLink && (
