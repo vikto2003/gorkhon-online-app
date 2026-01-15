@@ -38,9 +38,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Suspense fallback={
-          <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Горхон.Online</h1>
-            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-gorkhon-blue"></div>
+          <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-wb-purple/5 via-white to-wb-purple/10">
+            <h1 className="text-3xl font-bold text-wb-gray-900 mb-6">Горхон<span className="text-wb-purple">.Online</span></h1>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-wb-purple"></div>
           </div>
         }>
           <Routes>
