@@ -5,7 +5,7 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  'https://cdn.poehali.dev/files/big-logo.png',
+  'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/files/e098ebda-8db5-4ceb-a0e8-4bf14bdc9cde.jpg',
   'https://cdn.poehali.dev/files/538a3c94-c9c4-4488-9214-dc9493fadb43.png',
   'https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'
 ];
