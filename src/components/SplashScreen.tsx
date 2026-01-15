@@ -52,9 +52,9 @@ export default function SplashScreen() {
         {/* Логотип */}
         <div className="mb-8 animate-in zoom-in duration-700 ease-out">
           <img 
-            src="https://cdn.poehali.dev/files/a1c648d8-6b90-4de2-9e1d-1656421041bb.png" 
+            src="https://cdn.poehali.dev/files/big-logo.png" 
             alt="Горхон.Online"
-            className="w-40 h-40 md:w-48 md:h-48"
+            className="w-40 h-40 md:w-48 md:h-48 rounded-3xl"
           />
         </div>
 
