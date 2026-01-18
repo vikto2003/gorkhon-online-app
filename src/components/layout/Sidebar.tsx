@@ -71,7 +71,7 @@ const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen }: SidebarProps) 
                 <span className="text-sm font-medium">Telegram</span>
               </a>
               <a
-                href="https://max.ru/gorhononline"
+                href="https://max.ru/join/3eGYRla63lvcgxOAc8Mg9lsKYa1N8IiMEvG1Kw2W_NY"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors text-white bg-black hover:bg-gray-900"
