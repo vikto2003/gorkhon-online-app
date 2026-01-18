@@ -74,11 +74,13 @@ const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen }: SidebarProps) 
                 href="https://max.ru/gorhononline"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors text-white bg-gradient-to-r from-[#FF3366] to-[#FF6B9D] hover:from-[#EE2255] hover:to-[#FF5A8C]"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors text-white bg-black hover:bg-gray-900"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-1-9h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
-                </svg>
+                <img 
+                  src="https://cdn.poehali.dev/files/qr-logo.g__tzhK_.png" 
+                  alt="MAX" 
+                  className="w-5 h-5 object-contain"
+                />
                 <span className="text-sm font-medium">MAX</span>
               </a>
             </div>
