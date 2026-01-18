@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ChatModal from "@/components/chat/ChatModal";
 import DocumentModal from "@/components/documents/DocumentModal";
+import FAQ from "@/components/documents/FAQ";
 
 
 interface Photo {
@@ -21,6 +22,7 @@ const Index = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeDocument, setActiveDocument] = useState<'privacy' | 'terms' | 'security' | null>(null);
+  const [isFAQOpen, setIsFAQOpen] = useState(false);
 
   useEffect(() => {
     // Автоматическое обновление номеров у всех пользователей
@@ -131,6 +133,7 @@ const Index = () => {
           onClose={() => setIsSidebarOpen(false)}
           onChatOpen={() => setIsChatOpen(true)}
           onDocumentOpen={(doc) => setActiveDocument(doc)}
+          onFAQOpen={() => setIsFAQOpen(true)}
         />
 
         <ChatModal 
@@ -142,6 +145,10 @@ const Index = () => {
           activeDocument={activeDocument}
           onClose={() => setActiveDocument(null)}
         />
+
+        {isFAQOpen && (
+          <FAQ onClose={() => setIsFAQOpen(false)} />
+        )}
 
         <PhotoCarousel 
           selectedImageIndex={selectedImageIndex}

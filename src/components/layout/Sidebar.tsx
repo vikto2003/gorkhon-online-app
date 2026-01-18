@@ -5,9 +5,10 @@ interface SidebarProps {
   onClose: () => void;
   onChatOpen: () => void;
   onDocumentOpen: (doc: 'privacy' | 'terms' | 'security') => void;
+  onFAQOpen: () => void;
 }
 
-const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen }: SidebarProps) => {
+const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen, onFAQOpen }: SidebarProps) => {
   if (!isOpen) return null;
 
   return (
@@ -42,6 +43,16 @@ const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen }: SidebarProps) 
                 <div className="font-semibold">Лина - ИИ помощник</div>
                 <div className="text-xs opacity-90">Ответы на вопросы и помощь 24/7</div>
               </div>
+            </button>
+            <button
+              onClick={() => {
+                onClose();
+                onFAQOpen();
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors text-wb-gray-700 hover:bg-wb-gray-50 border border-wb-gray-200"
+            >
+              <Icon name="HelpCircle" size={18} />
+              <span className="text-sm font-medium">Частые вопросы</span>
             </button>
           </div>
 
