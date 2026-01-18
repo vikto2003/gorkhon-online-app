@@ -21,7 +21,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     if (!isSystemChat) {
       return [
-        {text: 'Привет! 👋\n\nЯ — Лина, твой ИИ-помощник Горхон.Online!\n\nМогу:\n• Ответить на вопросы о посёлке\n• Подсказать контакты и расписания\n• Помочь с техническими проблемами\n• Просто поболтать 😊\n\nЧем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+        {text: 'Здравствуйте!\n\nЯ — Лина, виртуальная помощница поддержки Горхон.Online.', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
       ];
     }
     return [];
