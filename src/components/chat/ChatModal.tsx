@@ -21,12 +21,18 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     if (!isSystemChat) {
       return [
-        {text: 'Здравствуйте!\n\nЯ — Лина, виртуальная помощница поддержки Горхон.Online.', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+        {text: '👋 Привет! Я Лина — ваша помощница в Горхоне!\n\nГотова ответить на вопросы о расписании, услугах и жизни в поселке. Чем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
       ];
     }
     return [];
   });
   const [chatInput, setChatInput] = useState('');
+  const [quickActions, setQuickActions] = useState<string[]>([
+    '📍 Расписание транспорта',
+    '📞 Важные номера',
+    '🏪 Пункты выдачи',
+    '💝 Помощь поселку'
+  ]);
   const [isLoading, setIsLoading] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
@@ -260,6 +266,27 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
         </div>
 
         <div className="flex-1 overflow-y-auto bg-white">
+          {/* Быстрые действия */}
+          {!isSystemChat && chatMessages.length === 1 && quickActions.length > 0 && (
+            <div className="px-4 pt-3 pb-2">
+              <p className="text-xs text-gray-500 mb-2 font-medium">Частые вопросы:</p>
+              <div className="flex flex-wrap gap-2">
+                {quickActions.map((action, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setChatInput(action);
+                      setQuickActions([]);
+                    }}
+                    className="px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-xs font-medium transition-colors border border-purple-200"
+                  >
+                    {action}
+                  </button>
+                ))}
+              </div>
+              <div className="h-px bg-gray-200 mt-3"></div>
+            </div>
+          )}
           {chatMessages.map((msg, idx) => (
             <div key={idx}>
               {isSystemChat ? (
@@ -359,6 +386,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                 </div>
               </div>
             ) : (
+              <>
               <div className="flex items-center gap-2 bg-gray-100 rounded-3xl p-2 shadow-sm">
                 <button className="text-gray-400 p-2 active:bg-gray-200 rounded-full transition-colors">
                   <Icon name="Paperclip" size={20} />
@@ -388,6 +416,13 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                   <Icon name="Send" size={18} />
                 </button>
               </div>
+              {chatInput.length > 0 && chatInput.length < 5 && (
+                <p className="text-xs text-gray-400 mt-2 text-center">Опишите вопрос подробнее</p>
+              )}
+              {chatInput.length >= 1000 && (
+                <p className="text-xs text-red-500 mt-2 text-center">Слишком длинное сообщение ({chatInput.length}/1000)</p>
+              )}
+              </>
             )}
           </div>
         )}
