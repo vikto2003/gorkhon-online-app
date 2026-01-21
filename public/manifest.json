@@ -2,20 +2,20 @@
   "name": "Горхон.Online",
   "short_name": "Горхон",
   "description": "Информационный портал поселка Горхон — работает офлайн",
-  "start_url": "/?v=6",
+  "start_url": "/?v=7",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#CB11AB",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://cdn.poehali.dev/files/big-logo.png",
+      "src": "https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/105c73f5-f5b6-433d-9c1e-6bb261422bcf.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdn.poehali.dev/files/big-logo.png",
+      "src": "https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/105c73f5-f5b6-433d-9c1e-6bb261422bcf.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
