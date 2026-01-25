@@ -25,6 +25,37 @@ const Index = () => {
   const [isFAQOpen, setIsFAQOpen] = useState(false);
 
   useEffect(() => {
+    const checkAndNotifyUpdate = async () => {
+      const APP_VERSION = '3.4.0';
+      const currentVersion = localStorage.getItem('appVersion');
+      const notificationShown = sessionStorage.getItem('updateNotificationShown');
+      
+      if (currentVersion !== APP_VERSION && !notificationShown && 'Notification' in window) {
+        if (Notification.permission === 'granted') {
+          new Notification('🚀 Доступно обновление!', {
+            body: `Новая версия ${APP_VERSION} готова к установке. Откройте меню для обновления.`,
+            icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+            badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+            tag: 'app-update',
+            requireInteraction: false
+          });
+          sessionStorage.setItem('updateNotificationShown', 'true');
+        } else if (Notification.permission === 'default') {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            new Notification('🚀 Доступно обновление!', {
+              body: `Новая версия ${APP_VERSION} готова к установке. Откройте меню для обновления.`,
+              icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+              tag: 'app-update'
+            });
+            sessionStorage.setItem('updateNotificationShown', 'true');
+          }
+        }
+      }
+    };
+    
+    checkAndNotifyUpdate();
+
     // Автоматическое обновление номеров у всех пользователей
     const updatePhoneNumbers = () => {
       const currentVersion = '3.2'; // Версия обновления
