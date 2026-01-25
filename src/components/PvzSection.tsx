@@ -16,6 +16,7 @@ interface PvzItem {
   hasFitting?: boolean;
   icon?: string;
   photos?: PvzPhoto[];
+  chatLink?: string;
 }
 
 interface PvzSectionProps {
@@ -196,6 +197,7 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
       schedule: "Ежедневно: 10:00-20:00",
       note: "Примерочные: 2 шт. Пункт выдачи заказов находится в центре посёлка Лесозаводской, напротив школы. Удобная парковка. Будем рады видеть Вас в нашем ПВЗ!",
       icon: "Package",
+      chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
       photos: [
         {
           url: "https://cdn.poehali.dev/files/effd940b-46bf-46ab-b102-56fc7574bce1.png", 
@@ -221,6 +223,7 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
       schedule: "Ежедневно: 10:00-20:00",
       note: "Примерочные: 2 шт. Пункт выдачи заказов находится напротив школы, рядом со зданием бывшей амбулатории, ориентир — вывеска Ozon. До встречи на Ozon!",
       icon: "Package",
+      chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
       photos: [
         {
           url: "https://cdn.poehali.dev/files/4cb01698-d8de-4264-b9bc-e863b3667eb4.jpg",
@@ -363,6 +366,26 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                       photos={pvz.photos} 
                       onPhotoClick={(photos, startIndex) => onOpenPhotoCarousel(photos, startIndex)}
                     />
+                  </div>
+                )}
+
+                {pvz.chatLink && (
+                  <div className="pt-2">
+                    <a
+                      href={pvz.chatLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    >
+                      <div className="p-2 rounded-lg bg-white/20">
+                        <Icon name="MessageCircle" size={18} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold">Чат ПВЗ в Telegram</p>
+                        <p className="text-xs opacity-90">Задайте вопрос или уточните информацию</p>
+                      </div>
+                      <Icon name="ExternalLink" size={16} className="opacity-70" />
+                    </a>
                   </div>
                 )}
               </div>
