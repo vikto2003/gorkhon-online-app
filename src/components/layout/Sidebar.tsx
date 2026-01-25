@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 
 interface SidebarProps {
@@ -8,7 +9,45 @@ interface SidebarProps {
   onFAQOpen: () => void;
 }
 
+const APP_VERSION = '3.2.1';
+
 const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen, onFAQOpen }: SidebarProps) => {
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  useEffect(() => {
+    const checkForUpdates = () => {
+      const currentVersion = localStorage.getItem('appVersion');
+      if (currentVersion !== APP_VERSION) {
+        setUpdateAvailable(true);
+      }
+    };
+    checkForUpdates();
+  }, []);
+
+  const handleUpdate = async () => {
+    setIsUpdating(true);
+    try {
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          await registration.update();
+        }
+      }
+      
+      localStorage.setItem('appVersion', APP_VERSION);
+      sessionStorage.clear();
+      setUpdateAvailable(false);
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch (error) {
+      console.error('Ошибка при обновлении:', error);
+      setIsUpdating(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -94,6 +133,30 @@ const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen, onFAQOpen }: Sid
                 />
                 <span className="text-sm font-medium">MAX</span>
               </a>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-xs font-semibold text-wb-gray-600 uppercase tracking-wide">Приложение</h3>
+            {updateAvailable && (
+              <button
+                onClick={handleUpdate}
+                disabled={isUpdating}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Icon name={isUpdating ? "Loader2" : "Download"} size={18} className={isUpdating ? "animate-spin" : ""} />
+                <div className="flex-1">
+                  <div className="text-sm font-semibold">{isUpdating ? "Обновление..." : "Установить обновление"}</div>
+                  <div className="text-xs opacity-90">Доступна версия {APP_VERSION}</div>
+                </div>
+              </button>
+            )}
+            <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-wb-gray-50 border border-wb-gray-200">
+              <Icon name="Info" size={18} className="text-wb-gray-600" />
+              <div className="flex-1">
+                <div className="text-sm font-medium text-wb-gray-900">Версия приложения</div>
+                <div className="text-xs text-wb-gray-600">{APP_VERSION}</div>
+              </div>
             </div>
           </div>
 
