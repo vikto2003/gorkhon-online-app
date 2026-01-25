@@ -103,18 +103,18 @@ const PhotoCarousel = ({ photos, onPhotoClick }: PhotoCarouselProps) => {
                 e.stopPropagation();
                 prevPhoto();
               }}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/95 hover:bg-white backdrop-blur-sm shadow-lg opacity-80 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-10 flex items-center justify-center border border-white/20"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/95 hover:bg-white backdrop-blur-sm shadow-md opacity-80 group-hover:opacity-100 transition-all duration-300 hover:scale-105 z-10 flex items-center justify-center border border-white/20"
             >
-              <Icon name="ChevronLeft" size={20} className="text-gray-700" />
+              <Icon name="ChevronLeft" size={16} className="text-gray-700" />
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 nextPhoto();
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/95 hover:bg-white backdrop-blur-sm shadow-lg opacity-80 group-hover:opacity-100 transition-all duration-300 hover:scale-110 z-10 flex items-center justify-center border border-white/20"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/95 hover:bg-white backdrop-blur-sm shadow-md opacity-80 group-hover:opacity-100 transition-all duration-300 hover:scale-105 z-10 flex items-center justify-center border border-white/20"
             >
-              <Icon name="ChevronRight" size={20} className="text-gray-700" />
+              <Icon name="ChevronRight" size={16} className="text-gray-700" />
             </button>
           </>
         )}
@@ -141,15 +141,15 @@ const PhotoCarousel = ({ photos, onPhotoClick }: PhotoCarouselProps) => {
       
       {/* Индикаторы как в ВК */}
       {photos.length > 1 && (
-        <div className="flex justify-center gap-1">
+        <div className="flex justify-center gap-1.5">
           {photos.map((_, index) => (
             <button
               key={index}
               onClick={() => goToPhoto(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`rounded-full transition-all duration-300 ${
                 index === currentIndex 
-                  ? 'bg-gorkhon-pink scale-110' 
-                  : 'bg-slate-300 hover:bg-slate-400'
+                  ? 'w-6 h-1.5 bg-gorkhon-pink' 
+                  : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400'
               }`}
             />
           ))}
