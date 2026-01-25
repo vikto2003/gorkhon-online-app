@@ -277,11 +277,12 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-5">
         {pvzData.map((pvz, index) => (
-          <div key={index} className="group p-5 rounded-2xl bg-gradient-to-r from-purple-50/80 to-pink-50/80 hover:from-gorkhon-pink/5 hover:to-gorkhon-pink/10 border-2 border-purple-100/50 hover:border-gorkhon-pink/20 transition-all duration-300 hover:shadow-lg">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 group-hover:from-gorkhon-pink/20 group-hover:to-gorkhon-pink/10 transition-all duration-300">
+          <div key={index} className="group relative overflow-hidden p-6 rounded-2xl bg-white border border-wb-gray-200 hover:border-gorkhon-pink/40 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-gorkhon-pink/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            <div className="flex items-center gap-4 mb-5 relative z-10">
+              <div className="p-3.5 rounded-2xl bg-gradient-to-br from-gorkhon-pink/10 to-gorkhon-pink/5 group-hover:from-gorkhon-pink/20 group-hover:to-gorkhon-pink/10 transition-all duration-300 shadow-sm">
                 {pvz.name.includes("OZON") ? (
                   <img 
                     src="https://cdn.poehali.dev/files/32eb6963-076a-4663-ae00-1f8c03ea5d9b.jpg" 
@@ -299,40 +300,37 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                 )}
               </div>
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h4 className="font-bold text-slate-800 group-hover:text-gorkhon-pink transition-colors">{pvz.name}</h4>
-
-                </div>
+                <h4 className="font-bold text-lg text-slate-900 group-hover:text-gorkhon-pink transition-colors mb-2">{pvz.name}</h4>
                 <div className="flex items-start gap-2">
-                  <Icon name="MapPin" size={14} className="text-slate-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-slate-600 break-words">{pvz.address}</p>
+                  <Icon name="MapPin" size={15} className="text-wb-gray-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-wb-gray-700 break-words leading-relaxed">{pvz.address}</p>
                 </div>
               </div>
             </div>
             
-            <div className="space-y-3">
-              <div className="flex items-start gap-2 p-2 rounded-xl bg-green-50 border border-green-200/50">
-                <Icon name="Clock" size={16} className="text-green-600 flex-shrink-0 mt-0.5" />
-                <span className="text-sm font-semibold text-green-700 break-words">{pvz.schedule}</span>
+            <div className="space-y-4 relative z-10">
+              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60 shadow-sm">
+                <Icon name="Clock" size={17} className="text-green-600 flex-shrink-0 mt-0.5" />
+                <span className="text-sm font-semibold text-green-800 break-words">{pvz.schedule}</span>
               </div>
               
               <div className="space-y-4">
                 {pvz.note && (
                   <div className="space-y-3">
                     {pvz.note.includes("Примерочные") && (
-                      <div className="p-3 rounded-xl bg-purple-50/80 border border-purple-200/50">
-                        <div className="flex items-center gap-2">
-                          <Icon name="ShoppingBag" size={14} className="text-purple-600" />
-                          <p className="text-sm font-bold text-purple-900">Примерочные</p>
-                          <p className="text-sm text-purple-700">2 шт.</p>
+                      <div className="p-3.5 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200/60 shadow-sm">
+                        <div className="flex items-center gap-2.5">
+                          <Icon name="ShoppingBag" size={16} className="text-purple-600" />
+                          <p className="text-sm font-bold text-purple-900">Примерочные:</p>
+                          <p className="text-sm font-semibold text-purple-700">2 шт.</p>
                         </div>
                       </div>
                     )}
                     
                     {(pvz.note.includes("Пункт выдачи заказов находится") || pvz.note.includes("напротив школы") || pvz.note.includes("Пос. Горхон") || pvz.note.includes("продуктовый магазин")) && !pvz.note.includes("почты") && (
-                      <div className="p-3 rounded-xl bg-blue-50/80 border border-blue-200/50">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Icon name="MapPin" size={14} className="text-blue-600" />
+                      <div className="p-3.5 rounded-xl bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-200/60 shadow-sm">
+                        <div className="flex items-center gap-2.5 mb-2">
+                          <Icon name="MapPin" size={16} className="text-blue-600" />
                           <p className="text-sm font-bold text-blue-900">Как добраться</p>
                         </div>
                         <p className="text-sm text-blue-700 leading-relaxed">
@@ -342,22 +340,24 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                     )}
                     
                     {pvz.note.includes("почты") && (
-                      <div className="p-3 rounded-xl bg-blue-50/80 border border-blue-200/50">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Icon name="MapPin" size={14} className="text-blue-600" />
+                      <div className="p-3.5 rounded-xl bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-200/60 shadow-sm">
+                        <div className="flex items-center gap-2.5 mb-2">
+                          <Icon name="MapPin" size={16} className="text-blue-600" />
                           <p className="text-sm font-bold text-blue-900">Как добраться</p>
                         </div>
-                        <p className="text-sm text-blue-700">{pvz.note}</p>
+                        <p className="text-sm text-blue-700 leading-relaxed">{pvz.note}</p>
                       </div>
                     )}
                   </div>
                 )}
                 
                 {pvz.photos && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Camera" size={16} className="text-gorkhon-pink" />
-                      <p className="text-sm font-semibold text-gorkhon-pink">Фотографии ПВЗ:</p>
+                  <div className="pt-2">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className="p-1.5 rounded-lg bg-gorkhon-pink/10">
+                        <Icon name="Camera" size={16} className="text-gorkhon-pink" />
+                      </div>
+                      <p className="text-sm font-bold text-gorkhon-pink">Фотографии ПВЗ</p>
                     </div>
                     <PhotoCarousel 
                       photos={pvz.photos} 
@@ -370,12 +370,14 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
           </div>
         ))}
         
-        <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200/50">
-          <div className="flex items-center gap-2 text-purple-800 mb-2">
-            <Icon name="Truck" size={16} />
-            <p className="text-sm font-semibold">Удобство 360°</p>
+        <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-gorkhon-pink/5 to-purple-50 border border-gorkhon-pink/20 shadow-sm">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-gorkhon-pink/10">
+              <Icon name="Truck" size={18} className="text-gorkhon-pink" />
+            </div>
+            <p className="text-sm font-bold text-slate-900">Удобство 360°</p>
           </div>
-          <p className="text-xs text-purple-700">Получайте заказы в удобных для вас точках!</p>
+          <p className="text-sm text-slate-700 leading-relaxed">Получайте заказы в удобных для вас точках!</p>
         </div>
       </CardContent>
     </Card>
