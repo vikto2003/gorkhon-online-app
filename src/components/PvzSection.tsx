@@ -161,30 +161,7 @@ const PhotoCarousel = ({ photos, onPhotoClick }: PhotoCarouselProps) => {
         {photos[currentIndex].caption}
       </p>
       
-      {/* Превью фото как в ВК */}
-      {photos.length > 3 && (
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
-          {photos.map((photo, index) => (
-            <button
-              key={index}
-              onClick={() => goToPhoto(index)}
-              className={`flex-shrink-0 w-12 h-8 sm:w-14 sm:h-9 overflow-hidden rounded-md border transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'border-2 border-gorkhon-pink shadow-md scale-105' 
-                  : 'border border-slate-200 hover:border-slate-300 opacity-70 hover:opacity-90'
-              }`}
-            >
-              <img 
-                src={photo.url}
-                alt={photo.caption}
-                className="w-full h-full object-cover"
-                loading="lazy"
-                draggable={false}
-              />
-            </button>
-          ))}
-        </div>
-      )}
+
     </div>
   );
 };

@@ -26,7 +26,7 @@ const Index = () => {
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
-      const APP_VERSION = '3.4.0';
+      const APP_VERSION = '3.5.0';
       const currentVersion = localStorage.getItem('appVersion');
       const notificationShown = sessionStorage.getItem('updateNotificationShown');
       

@@ -54,7 +54,7 @@ const ActionButtons = () => {
         
         <div className="space-y-2 md:space-y-3 px-4">
           <p className="text-xs md:text-sm text-slate-400">
-            © 2025 Горхон.Online • Платформа 360°
+            © 2026 Горхон.Online • Платформа 360°
           </p>
           <div className="flex items-center justify-center gap-3 md:gap-4 text-xs md:text-sm text-slate-400 flex-wrap">
             <span className="flex items-center gap-1">
