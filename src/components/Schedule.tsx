@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Icon from "@/components/ui/icon";
 
 interface RouteInfo {
@@ -15,7 +16,7 @@ interface TransportSchedule {
 }
 
 const Schedule = () => {
-  const scheduleData: TransportSchedule[] = [
+  const regularScheduleData: TransportSchedule[] = [
     {
       type: "🚌 Автобус",
       routes: [
@@ -36,20 +37,30 @@ const Schedule = () => {
     }
   ];
 
-  return (
-    <Card data-tutorial="city-map" className="rounded-xl bg-white border border-wb-gray-200 shadow-sm transition-all duration-200">
-      <CardHeader className="p-4 md:p-5 border-b border-wb-gray-100">
-        <CardTitle className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-wb-purple/10 flex-shrink-0">
-            <Icon name="Bus" size={20} className="text-wb-purple" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-lg md:text-xl font-semibold text-wb-gray-900">Расписание транспорта</span>
-          </div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-3 md:p-5 space-y-4">
-        {scheduleData.map((transport, index) => (
+  const temporaryScheduleData: TransportSchedule[] = [
+    {
+      type: "🚌 Автобус (временное расписание)",
+      routes: [
+        { route: "Горхон → УУ", time: "7:00 (ПН-ПТ)", price: "500₽" },
+        { route: "Горхон → УУ", time: "8:00 (СБ-ВС, 16:30 ВС студ.)", price: "500₽" },
+        { route: "Горхон → Заиграево", time: "Городской по расписанию", price: "290₽" },
+        { route: "Заиграево → Горхон", time: "13:00 (только ПН, СР, ПТ)", price: "290₽" }
+      ]
+    },
+    {
+      type: "🚞 Электричка", 
+      routes: [
+        { route: "Горхон → УУ", time: "05:32 (ПН)", price: "296₽" },
+        { route: "Горхон → УУ", time: "09:27 (СБ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "17:40 (ПТ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "08:35 (ВС)", price: "296₽" }
+      ]
+    }
+  ];
+
+  const renderSchedule = (scheduleData: TransportSchedule[]) => (
+    <>
+      {scheduleData.map((transport, index) => (
           <div key={index}>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-base">{transport.type.split(' ')[0]}</span>
@@ -97,7 +108,59 @@ const Schedule = () => {
             )}
           </div>
         ))}
-        
+    </>
+  );
+
+  return (
+    <Card data-tutorial="city-map" className="rounded-xl bg-white border border-wb-gray-200 shadow-sm transition-all duration-200">
+      <CardHeader className="p-4 md:p-5 border-b border-wb-gray-100">
+        <CardTitle className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-wb-purple/10 flex-shrink-0">
+            <Icon name="Bus" size={20} className="text-wb-purple" />
+          </div>
+          <div className="min-w-0">
+            <span className="text-lg md:text-xl font-semibold text-wb-gray-900">Расписание транспорта</span>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-3 md:p-5">
+        <Tabs defaultValue="temporary" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-4">
+            <TabsTrigger value="temporary" className="text-xs sm:text-sm">
+              <Icon name="AlertCircle" size={14} className="mr-1.5" />
+              Временное
+            </TabsTrigger>
+            <TabsTrigger value="regular" className="text-xs sm:text-sm">
+              <Icon name="Calendar" size={14} className="mr-1.5" />
+              Обычное
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="temporary" className="space-y-4">
+            <div className="p-3 md:p-4 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+              <div className="flex items-start gap-2 mb-2">
+                <Icon name="AlertTriangle" size={18} className="text-orange-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-semibold text-orange-900 mb-1">⚠️ Временные изменения</p>
+                  <p className="text-xs text-orange-800 leading-relaxed">
+                    Маршрут <strong>Заиграево → Горхон</strong> временно сократили количество рейсов. 
+                    Вместо 5 раз в неделю, будет ходить <strong>3 раза в неделю</strong> (понедельник, среда, пятница). 
+                    Не забудьте, кто планирует поездку!
+                  </p>
+                  <p className="text-xs text-orange-700 mt-2 font-medium">
+                    🚌 Городской автобус как ходил, так и будет ходить по расписанию.
+                  </p>
+                </div>
+              </div>
+            </div>
+            {renderSchedule(temporaryScheduleData)}
+          </TabsContent>
+
+          <TabsContent value="regular" className="space-y-4">
+            {renderSchedule(regularScheduleData)}
+          </TabsContent>
+        </Tabs>
+
         <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-blue-50 md:bg-gradient-to-r md:from-blue-50 md:to-purple-50 border border-blue-200/50">
           <div className="flex items-center gap-2 text-blue-800 mb-2">
             <Icon name="Info" size={16} className="flex-shrink-0" />
