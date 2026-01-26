@@ -1,6 +1,6 @@
-const CACHE_NAME = 'gorkhon-online-v7';
-const RUNTIME_CACHE = 'gorkhon-runtime-v7';
-const APP_VERSION = '3.7.0';
+const CACHE_NAME = 'gorkhon-online-v8';
+const RUNTIME_CACHE = 'gorkhon-runtime-v8';
+const APP_VERSION = '3.8.0';
 
 const STATIC_ASSETS = [
   '/',

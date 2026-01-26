@@ -9,7 +9,7 @@ interface SidebarProps {
   onFAQOpen: () => void;
 }
 
-const APP_VERSION = '3.7.0';
+const APP_VERSION = '3.8.0';
 
 const Sidebar = ({ isOpen, onClose, onChatOpen, onDocumentOpen, onFAQOpen }: SidebarProps) => {
   const [updateAvailable, setUpdateAvailable] = useState(false);

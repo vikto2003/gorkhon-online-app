@@ -26,27 +26,30 @@ const Index = () => {
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
-      const APP_VERSION = '3.7.0';
+      const APP_VERSION = '3.8.0';
       const currentVersion = localStorage.getItem('appVersion');
       const notificationShown = sessionStorage.getItem('updateNotificationShown');
       
       if (currentVersion !== APP_VERSION && !notificationShown && 'Notification' in window) {
         if (Notification.permission === 'granted') {
-          new Notification('🚀 Доступно обновление!', {
-            body: `Новая версия ${APP_VERSION} готова к установке. Откройте меню для обновления.`,
+          new Notification('🚀 Важное обновление!', {
+            body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
             icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
             badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
             tag: 'app-update',
-            requireInteraction: false
+            requireInteraction: true,
+            vibrate: [200, 100, 200]
           });
           sessionStorage.setItem('updateNotificationShown', 'true');
         } else if (Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
-            new Notification('🚀 Доступно обновление!', {
-              body: `Новая версия ${APP_VERSION} готова к установке. Откройте меню для обновления.`,
+            new Notification('🚀 Важное обновление!', {
+              body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
               icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
-              tag: 'app-update'
+              tag: 'app-update',
+              requireInteraction: true,
+              vibrate: [200, 100, 200]
             });
             sessionStorage.setItem('updateNotificationShown', 'true');
           }
@@ -142,7 +145,7 @@ const Index = () => {
         <Header 
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}
-          currentVersion="3.7.0"
+          currentVersion="3.8.0"
           onUpdateClick={handleUpdateClick}
         />
 

@@ -90,24 +90,41 @@ const NotificationBell = ({ currentVersion, onUpdateClick }: NotificationBellPro
       </Button>
       
       {hasUpdate && (
-        <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-wb-gray-200 p-4 z-50 animate-in slide-in-from-top-2">
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-gorkhon-orange/10 rounded-lg flex-shrink-0">
-              <Icon name="Sparkles" size={20} className="text-gorkhon-orange" />
+        <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-wb-gray-200 p-4 z-50 animate-in slide-in-from-top-2">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-gorkhon-orange/10 rounded-lg flex-shrink-0">
+                <Icon name="Sparkles" size={20} className="text-gorkhon-orange" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-wb-gray-900 mb-1">🚀 Доступно обновление!</h4>
+                <p className="text-sm text-wb-gray-600">
+                  Новая версия {currentVersion} готова к установке
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <h4 className="font-semibold text-wb-gray-900 mb-1">🚀 Доступно обновление!</h4>
-              <p className="text-sm text-wb-gray-600 mb-3">
-                Новая версия {currentVersion} готова к установке
-              </p>
-              <Button 
-                onClick={handleClick}
-                className="w-full bg-gradient-to-r from-gorkhon-orange to-gorkhon-pink text-white"
-                size="sm"
-              >
-                Обновить сейчас
-              </Button>
+            
+            <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+              <div className="flex items-start gap-2">
+                <Icon name="AlertTriangle" size={16} className="text-orange-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-semibold text-orange-900 mb-1">⚠️ Важная информация</p>
+                  <p className="text-xs text-orange-800 leading-relaxed">
+                    Маршрут <strong>Заиграево → Горхон</strong> временно сокращен. 
+                    Автобус ходит <strong>3 раза в неделю</strong> (ПН, СР, ПТ) вместо 5 раз. 
+                    Не забудьте, кто планирует поездку!
+                  </p>
+                </div>
+              </div>
             </div>
+            
+            <Button 
+              onClick={handleClick}
+              className="w-full bg-gradient-to-r from-gorkhon-orange to-gorkhon-pink text-white"
+              size="sm"
+            >
+              Обновить и посмотреть расписание
+            </Button>
           </div>
         </div>
       )}
