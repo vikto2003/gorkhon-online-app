@@ -1,5 +1,6 @@
-const CACHE_NAME = 'gorkhon-online-v6';
-const RUNTIME_CACHE = 'gorkhon-runtime-v6';
+const CACHE_NAME = 'gorkhon-online-v7';
+const RUNTIME_CACHE = 'gorkhon-runtime-v7';
+const APP_VERSION = '3.7.0';
 
 const STATIC_ASSETS = [
   '/',
@@ -27,6 +28,15 @@ self.addEventListener('activate', (event) => {
           .filter((name) => name !== CACHE_NAME && name !== RUNTIME_CACHE)
           .map((name) => caches.delete(name))
       );
+    }).then(() => {
+      return self.clients.matchAll({ type: 'window' });
+    }).then((clients) => {
+      clients.forEach((client) => {
+        client.postMessage({
+          type: 'VERSION_UPDATE',
+          version: APP_VERSION
+        });
+      });
     })
   );
   self.clients.claim();
@@ -105,14 +115,18 @@ self.addEventListener('push', function(event) {
   const title = data.title || 'Новое уведомление';
   const options = {
     body: data.body || '',
-    icon: data.icon || '/logo.png',
-    badge: '/logo.png',
-    vibrate: [200, 100, 200],
+    icon: data.icon || 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+    badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+    vibrate: [200, 100, 200, 100, 200],
     tag: data.tag || 'notification',
-    requireInteraction: false,
+    requireInteraction: data.requireInteraction || false,
+    silent: false,
+    sound: '/notification.mp3',
     actions: data.actions || [],
     data: {
       url: data.url || '/',
+      dateOfArrival: Date.now(),
+      primaryKey: 1,
       ...data
     }
   };

@@ -26,7 +26,7 @@ const Index = () => {
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
-      const APP_VERSION = '3.6.0';
+      const APP_VERSION = '3.7.0';
       const currentVersion = localStorage.getItem('appVersion');
       const notificationShown = sessionStorage.getItem('updateNotificationShown');
       
@@ -130,6 +130,10 @@ const Index = () => {
     }
   }, [selectedImageIndex, selectedPvzPhotos.length]);
 
+  const handleUpdateClick = useCallback(() => {
+    setIsSidebarOpen(true);
+  }, []);
+
   return (
     <>
       <SplashScreen />
@@ -138,6 +142,8 @@ const Index = () => {
         <Header 
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}
+          currentVersion="3.7.0"
+          onUpdateClick={handleUpdateClick}
         />
 
         <div className="flex pt-16 md:pt-16">
