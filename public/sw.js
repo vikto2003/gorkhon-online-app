@@ -1,6 +1,6 @@
-const CACHE_NAME = 'gorkhon-online-v8';
-const RUNTIME_CACHE = 'gorkhon-runtime-v8';
-const APP_VERSION = '3.8.0';
+const CACHE_NAME = 'gorkhon-online-v9';
+const RUNTIME_CACHE = 'gorkhon-runtime-v9';
+const APP_VERSION = '3.9.0';
 
 const STATIC_ASSETS = [
   '/',
@@ -54,52 +54,83 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+  // API-запросы — только сеть, без кэша
+  if (url.pathname.startsWith('/api/') || url.hostname.includes('supabase') || url.hostname.includes('poehali.dev/functions')) {
+    return;
+  }
 
-      return fetch(request)
-        .then((response) => {
-          if (!response || response.status !== 200 || response.type === 'error') {
-            return response;
+  // Статичные ассеты (JS/CSS/шрифты) — cache-first
+  const isStaticAsset =
+    url.pathname.match(/\.(js|css|woff2?|ttf|eot)$/) ||
+    url.hostname.includes('fonts.gstatic.com');
+
+  if (isStaticAsset) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           }
-
-          const shouldCache = 
-            url.origin === location.origin ||
-            url.hostname.includes('cdn.poehali.dev') ||
-            url.hostname.includes('fonts.googleapis.com') ||
-            url.hostname.includes('fonts.gstatic.com');
-
-          if (shouldCache) {
-            const responseToCache = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => {
-              cache.put(request, responseToCache);
-            });
-          }
-
           return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // Изображения и CDN — stale-while-revalidate
+  const isMedia =
+    url.pathname.match(/\.(png|jpg|jpeg|webp|svg|gif|ico)$/) ||
+    url.hostname.includes('cdn.poehali.dev');
+
+  if (isMedia) {
+    event.respondWith(
+      caches.open(RUNTIME_CACHE).then((cache) =>
+        cache.match(request).then((cached) => {
+          const fetchPromise = fetch(request).then((response) => {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          });
+          return cached || fetchPromise;
         })
-        .catch(() => {
+      )
+    );
+    return;
+  }
+
+  // HTML-страницы — network-first с fallback на кэш
+  event.respondWith(
+    fetch(request)
+      .then((response) => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+        }
+        return response;
+      })
+      .catch(() => {
+        return caches.match(request).then((cached) => {
+          if (cached) return cached;
           if (request.destination === 'document') {
             return caches.match('/index.html');
           }
-          
           if (request.destination === 'image') {
             return new Response(
               '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#e0e0e0" width="200" height="200"/><text x="50%" y="50%" text-anchor="middle" fill="#666">Офлайн</text></svg>',
               { headers: { 'Content-Type': 'image/svg+xml' } }
             );
           }
-
           return new Response('Офлайн режим', {
             status: 503,
             statusText: 'Service Unavailable',
             headers: { 'Content-Type': 'text/plain' }
           });
         });
-    })
+      })
   );
 });
 
