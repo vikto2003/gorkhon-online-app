@@ -1,10 +1,8 @@
-
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-
 
 // Обычный импорт для главной страницы (часто используется)
 import Index from "./pages/Index";
@@ -17,7 +15,6 @@ const PrivacyPolicy = lazy(() => import("./components/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./components/legal/TermsOfService"));
 const DataProtection = lazy(() => import("./components/legal/DataProtection"));
 
-
 // Оптимизированная конфигурация QueryClient
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,14 +26,16 @@ const queryClient = new QueryClient({
   },
 });
 
-
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Suspense fallback={
           <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-wb-purple/5 via-white to-wb-purple/10">
             <h1 className="text-3xl font-bold text-wb-gray-900 mb-6">Горхон<span className="text-wb-purple">.Online</span></h1>
@@ -51,8 +50,6 @@ const App = () => (
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/data-protection" element={<DataProtection />} />
-
-
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

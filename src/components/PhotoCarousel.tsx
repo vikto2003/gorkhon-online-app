@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import Icon from "@/components/ui/icon";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 interface Photo {
   url: string;
@@ -17,7 +17,7 @@ interface PhotoCarouselProps {
   onPrev: () => void;
 }
 
-const PhotoCarousel = ({ 
+const PhotoCarousel = memo(({ 
   selectedImageIndex, 
   selectedPvzPhotos, 
   onClose, 
@@ -133,6 +133,6 @@ const PhotoCarousel = ({
       </DialogContent>
     </Dialog>
   );
-};
+});
 
 export default PhotoCarousel;

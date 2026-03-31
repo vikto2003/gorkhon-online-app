@@ -48,7 +48,14 @@ const AdminAuth = ({ onAuthenticated }: AdminAuthProps) => {
     setIsLoading(true);
     setError('');
 
-
+    // Проверяем блокировку ДО любых проверок credentials
+    const lockUntil = parseInt(sessionStorage.getItem('login_lock_until') || '0');
+    if (Date.now() < lockUntil) {
+      const remaining = Math.ceil((lockUntil - Date.now()) / 60000);
+      setError(`Слишком много попыток входа. Подождите ещё ${remaining} мин.`);
+      setIsLoading(false);
+      return;
+    }
 
     if (email !== DEVELOPER_EMAIL) {
       setError('Доступ запрещен. Только для разработчиков.');
@@ -58,28 +65,32 @@ const AdminAuth = ({ onAuthenticated }: AdminAuthProps) => {
 
     const hashedPassword = await hashPassword(password);
     if (hashedPassword !== ADMIN_PASSWORD_HASH) {
-      setError('Неверный пароль');
-      setIsLoading(false);
-      
       const attempts = parseInt(sessionStorage.getItem('login_attempts') || '0') + 1;
       sessionStorage.setItem('login_attempts', attempts.toString());
-      
+
       if (attempts >= 5) {
-        setError('Слишком много попыток входа. Попробуйте позже.');
-        setTimeout(() => sessionStorage.removeItem('login_attempts'), 300000);
+        const lockUntilTime = Date.now() + 300000; // 5 минут
+        sessionStorage.setItem('login_lock_until', lockUntilTime.toString());
+        sessionStorage.removeItem('login_attempts');
+        setError('Слишком много попыток входа. Попробуйте через 5 минут.');
+      } else {
+        setError(`Неверный пароль. Осталось попыток: ${5 - attempts}`);
       }
+      setIsLoading(false);
       return;
     }
-    
+
+    // Успешный вход — сбрасываем счётчик попыток
     sessionStorage.removeItem('login_attempts');
+    sessionStorage.removeItem('login_lock_until');
 
     const sessionToken = crypto.randomUUID();
     const expiresAt = Date.now() + 3600000;
-    
+
     sessionStorage.setItem('admin_session_token', sessionToken);
     sessionStorage.setItem('admin_session_expires', expiresAt.toString());
     sessionStorage.setItem('admin_email', email);
-    
+
     setTimeout(() => {
       setIsLoading(false);
       onAuthenticated();

@@ -1,4 +1,4 @@
-import { useState, useCallback, memo, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import InstallPrompt from "@/components/InstallPrompt";
 import SplashScreen from "@/components/SplashScreen";
@@ -88,7 +88,12 @@ const Index = () => {
         };
         
         const existingContent = localStorage.getItem('homePageContent');
-        const content = existingContent ? JSON.parse(existingContent) : {};
+        let content: Record<string, unknown> = {};
+        try {
+          content = existingContent ? JSON.parse(existingContent) : {};
+        } catch {
+          content = {};
+        }
         
         content.importantNumbers = updatedNumbers.importantNumbers;
         content.transitNumbers = updatedNumbers.transitNumbers;
