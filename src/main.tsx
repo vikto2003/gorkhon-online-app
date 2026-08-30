@@ -6,7 +6,7 @@ import { apolloClient } from './lib/apollo';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/service-worker.js')
       .then((registration) => {
         if (import.meta.env.DEV) {
           console.log('✅ Service Worker зарегистрирован:', registration.scope);
