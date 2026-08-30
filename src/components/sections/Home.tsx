@@ -31,7 +31,7 @@ interface HomeProps {
 const getDefaultSections = (): SectionConfig[] => [
   { id: 'importantNumbers', name: 'Важные номера', enabled: true, order: 1, description: 'Контакты экстренных служб и организаций' },
   { id: 'schedule', name: 'Расписание транспорта', enabled: true, order: 2, description: 'Автобусы и транспорт' },
-  { id: 'chats', name: 'Чаты', enabled: true, order: 3, description: 'Мессенджеры и группы' },
+  { id: 'chats', name: 'Чаты', enabled: false, order: 3, description: 'Мессенджеры и группы' },
   { id: 'donation', name: 'Сбор средств', enabled: true, order: 4, description: 'Благотворительные сборы' },
   { id: 'workSchedule', name: 'Режим работы', enabled: true, order: 5, description: 'График работы организаций' },
   { id: 'weather', name: 'Погода', enabled: true, order: 6, description: 'Прогноз погоды' },
@@ -48,7 +48,9 @@ const Home = ({ onOpenPhotoCarousel }: HomeProps) => {
       const savedContent = localStorage.getItem('homePageContent');
       if (savedContent) {
         const content = JSON.parse(savedContent);
-        setSections(content.sections || getDefaultSections());
+        const loaded: SectionConfig[] = content.sections || getDefaultSections();
+        // Чаты переехали в отдельную вкладку — на главной их не показываем
+        setSections(loaded.map(s => s.id === 'chats' ? { ...s, enabled: false } : s));
       } else {
         setSections(getDefaultSections());
       }
@@ -115,8 +117,8 @@ const Home = ({ onOpenPhotoCarousel }: HomeProps) => {
         {[1, 2, 3].map(i => (
           <div key={i} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
             <div className="animate-pulse">
-              <div className="h-5 bg-gradient-to-r from-gray-200 to-gray-100 rounded-xl w-3/4 mb-4"></div>
-              <div className="h-24 bg-gradient-to-r from-gray-200 to-gray-100 rounded-xl"></div>
+              <div className="h-5 bg-gray-200 rounded-xl w-3/4 mb-4"></div>
+              <div className="h-24 bg-gray-200 rounded-xl"></div>
             </div>
           </div>
         ))}

@@ -74,7 +74,7 @@ const SettingsPage = ({ onChatOpen, onDocumentOpen, onFAQOpen }: SettingsPagePro
           <button
             onClick={handleUpdate}
             disabled={isUpdating}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:opacity-50"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors text-white bg-green-600 hover:bg-green-700 disabled:opacity-50"
           >
             <Icon name={isUpdating ? "Loader2" : "Download"} size={18} className={isUpdating ? "animate-spin" : ""} />
             <div className="flex-1">

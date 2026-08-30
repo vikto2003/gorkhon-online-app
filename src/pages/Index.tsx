@@ -7,11 +7,13 @@ import Home from "@/components/sections/Home";
 import Header from "@/components/layout/Header";
 import BottomNav, { type BottomNavTab } from "@/components/layout/BottomNav";
 import SettingsPage from "@/components/settings/SettingsPage";
+import ChatsPage from "@/components/chats/ChatsPage";
 import ChatModal from "@/components/chat/ChatModal";
 import DocumentModal from "@/components/documents/DocumentModal";
 import FAQ from "@/components/documents/FAQ";
 import SearchModal from "@/components/search/SearchModal";
 import type { SearchItem } from "@/components/search/searchIndex";
+import { getUnreadForUser, getMyTickets, markReadByUser, TICKETS_EVENT } from "@/lib/ticketService";
 
 
 interface Photo {
@@ -27,6 +29,7 @@ const Index = () => {
   const [activeDocument, setActiveDocument] = useState<'privacy' | 'terms' | 'security' | null>(null);
   const [isFAQOpen, setIsFAQOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [chatsUnread, setChatsUnread] = useState(0);
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
@@ -119,6 +122,20 @@ const Index = () => {
     updatePhoneNumbers();
   }, []);
 
+  // Счётчик непрочитанных ответов поддержки на вкладке «Чаты»
+  useEffect(() => {
+    const sync = () => setChatsUnread(getUnreadForUser());
+    sync();
+    window.addEventListener(TICKETS_EVENT, sync);
+    window.addEventListener('storage', sync);
+    const timer = setInterval(sync, 3000);
+    return () => {
+      window.removeEventListener(TICKETS_EVENT, sync);
+      window.removeEventListener('storage', sync);
+      clearInterval(timer);
+    };
+  }, []);
+
 
   const openPhotoCarousel = useCallback((photos: Photo[], startIndex: number) => {
     setSelectedPvzPhotos(photos);
@@ -144,6 +161,12 @@ const Index = () => {
 
   const handleUpdateClick = useCallback(() => {
     setActiveTab('settings');
+  }, []);
+
+  const openSupportChat = useCallback(() => {
+    getMyTickets().forEach(t => markReadByUser(t.id));
+    setChatsUnread(0);
+    setIsChatOpen(true);
   }, []);
 
   const handleSearchNavigate = useCallback((action: SearchItem['action']) => {
@@ -188,9 +211,11 @@ const Index = () => {
                     </a>
                   </div>
                 </>
+              ) : activeTab === 'chats' ? (
+                <ChatsPage onSupportOpen={openSupportChat} />
               ) : (
                 <SettingsPage
-                  onChatOpen={() => setIsChatOpen(true)}
+                  onChatOpen={openSupportChat}
                   onDocumentOpen={(doc) => setActiveDocument(doc)}
                   onFAQOpen={() => setIsFAQOpen(true)}
                 />
@@ -199,7 +224,7 @@ const Index = () => {
           </main>
         </div>
 
-        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} chatsBadge={chatsUnread} />
 
         <SearchModal
           isOpen={isSearchOpen}

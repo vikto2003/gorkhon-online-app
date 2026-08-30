@@ -104,7 +104,7 @@ const NotificationBell = ({ currentVersion, onUpdateClick }: NotificationBellPro
               </div>
             </div>
             
-            <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+            <div className="p-3 rounded-lg bg-orange-50 border border-orange-200">
               <div className="flex items-start gap-2">
                 <Icon name="AlertTriangle" size={16} className="text-orange-600 flex-shrink-0 mt-0.5" />
                 <div>
@@ -120,7 +120,7 @@ const NotificationBell = ({ currentVersion, onUpdateClick }: NotificationBellPro
             
             <Button 
               onClick={handleClick}
-              className="w-full bg-gradient-to-r from-gorkhon-orange to-gorkhon-pink text-white"
+              className="w-full bg-wb-purple hover:bg-wb-purple-dark text-white"
               size="sm"
             >
               Обновить и посмотреть расписание

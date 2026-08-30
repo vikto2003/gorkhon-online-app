@@ -79,7 +79,7 @@ export default function InstallPrompt() {
   if (showInstructions) {
     return (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-        <Card className="max-w-md w-full bg-gradient-to-br from-white via-blue-50/30 to-wb-purple/10 border-2 border-gorkhon-pink/40 shadow-2xl">
+        <Card className="max-w-md w-full bg-white border-2 border-gorkhon-pink/40 shadow-2xl">
           <CardHeader className="relative pb-4">
             <button
               onClick={() => setShowInstructions(false)}
@@ -88,11 +88,11 @@ export default function InstallPrompt() {
               <Icon name="X" size={20} className="text-gray-600" />
             </button>
             <CardTitle className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-gorkhon-blue/15 to-gorkhon-pink/15">
+              <div className="p-3 rounded-2xl bg-wb-purple/10">
                 <Icon name="Download" size={24} className="text-gorkhon-blue" />
               </div>
               <div>
-                <span className="text-xl font-bold bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-wb-purple bg-clip-text text-transparent">
+                <span className="text-xl font-bold text-wb-purple">
                   Установить приложение
                 </span>
                 <p className="text-sm text-gray-600 font-normal mt-1">
@@ -106,7 +106,7 @@ export default function InstallPrompt() {
             {isIOS && (
               <div className="space-y-4">
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     1
                   </div>
                   <div className="flex-1">
@@ -120,7 +120,7 @@ export default function InstallPrompt() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     2
                   </div>
                   <div className="flex-1">
@@ -134,7 +134,7 @@ export default function InstallPrompt() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     3
                   </div>
                   <div className="flex-1">
@@ -152,7 +152,7 @@ export default function InstallPrompt() {
             {isAndroid && (
               <div className="space-y-4">
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     1
                   </div>
                   <div className="flex-1">
@@ -166,7 +166,7 @@ export default function InstallPrompt() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     2
                   </div>
                   <div className="flex-1">
@@ -180,7 +180,7 @@ export default function InstallPrompt() {
                 </div>
 
                 <div className="flex items-start gap-3 p-3 rounded-xl bg-white/60 border border-gorkhon-pink/30">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gorkhon-blue to-gorkhon-pink text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-wb-purple text-white flex items-center justify-center font-bold">
                     3
                   </div>
                   <div className="flex-1">
@@ -228,7 +228,7 @@ export default function InstallPrompt() {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-40 animate-in slide-in-from-bottom duration-500">
-      <Card className="bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-wb-purple text-white shadow-2xl border-0 overflow-hidden">
+      <Card className="bg-wb-purple text-white shadow-2xl border-0 overflow-hidden">
         <CardContent className="p-4 relative">
           <button
             onClick={handleDismiss}

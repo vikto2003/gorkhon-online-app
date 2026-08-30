@@ -114,7 +114,7 @@ const Footer = () => {
 
         {/* Дополнительная информация */}
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <div className="bg-gradient-to-r from-gorkhon-pink/5 to-gorkhon-blue/5 rounded-xl p-4">
+          <div className="bg-wb-purple/5 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <Icon name="Info" size={20} className="text-gorkhon-blue mt-0.5" />
               <div>

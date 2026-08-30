@@ -85,7 +85,7 @@ const Schedule = () => {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1.5 ml-3">
-                    <Badge variant="secondary" className="bg-gradient-to-r from-gorkhon-orange to-gorkhon-orange/90 text-white border-0 px-3 md:px-4 py-1.5 font-bold text-sm shadow-lg shadow-gorkhon-orange/20">
+                    <Badge variant="secondary" className="bg-gorkhon-orange text-white border-0 px-3 md:px-4 py-1.5 font-bold text-sm shadow-lg shadow-gorkhon-orange/20">
                       {route.price}
                     </Badge>
                     <div className="flex items-center gap-1 text-xs text-gray-500">
@@ -137,7 +137,7 @@ const Schedule = () => {
           </TabsList>
 
           <TabsContent value="temporary" className="space-y-4">
-            <div className="p-3 md:p-4 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+            <div className="p-3 md:p-4 rounded-lg bg-orange-50 border border-orange-200">
               <div className="flex items-start gap-2 mb-2">
                 <Icon name="AlertTriangle" size={18} className="text-orange-600 flex-shrink-0 mt-0.5" />
                 <div>
@@ -161,7 +161,7 @@ const Schedule = () => {
           </TabsContent>
         </Tabs>
 
-        <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-blue-50 md:bg-gradient-to-r md:from-blue-50 md:to-wb-purple/5 border border-blue-200/50">
+        <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-blue-50 border border-blue-200/50">
           <div className="flex items-center gap-2 text-blue-800 mb-2">
             <Icon name="Info" size={16} className="flex-shrink-0" />
             <p className="text-sm md:text-sm font-semibold">Полезная информация</p>

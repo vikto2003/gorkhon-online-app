@@ -74,7 +74,7 @@ const FAQ = ({ onClose }: FAQProps) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Заголовок */}
-        <div className="sticky top-0 bg-gradient-to-r from-wb-purple to-wb-purple-dark text-white px-6 py-5 flex items-center justify-between">
+        <div className="sticky top-0 bg-wb-purple text-white px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-white/20 p-2 rounded-lg">
               <Icon name="HelpCircle" size={24} />

@@ -11,10 +11,13 @@ import TransitTab from '@/components/admin/TransitTab';
 import HelpTab from '@/components/admin/HelpTab';
 import ScheduleTab from '@/components/admin/ScheduleTab';
 import PvzTab from '@/components/admin/PvzTab';
+import TicketsPlatform from '@/components/admin/TicketsPlatform';
+import { getUnreadForAdmin, TICKETS_EVENT } from '@/lib/ticketService';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'numbers' | 'transit' | 'help' | 'schedule' | 'pvz' | 'messages'>('messages');
+  const [activeTab, setActiveTab] = useState<'numbers' | 'transit' | 'help' | 'schedule' | 'pvz' | 'messages' | 'tickets'>('tickets');
+  const [ticketsUnread, setTicketsUnread] = useState(0);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   const [importantNumbers, setImportantNumbers] = useState<ImportantNumber[]>([]);
@@ -40,9 +43,23 @@ const AdminPanel = () => {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
     
+    const syncUnread = () => setTicketsUnread(getUnreadForAdmin());
+    syncUnread();
+    window.addEventListener(TICKETS_EVENT, syncUnread);
+    window.addEventListener('storage', syncUnread);
+    const unreadTimer = setInterval(syncUnread, 3000);
+
+    // Запрашиваем разрешение на уведомления, чтобы приходили новые тикеты
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener(TICKETS_EVENT, syncUnread);
+      window.removeEventListener('storage', syncUnread);
+      clearInterval(unreadTimer);
     };
   }, []);
 
@@ -151,29 +168,27 @@ const AdminPanel = () => {
   };
 
   const tabs = [
-    { id: 'messages', label: 'Системный чат', icon: 'MessageSquare', color: 'from-blue-500 to-cyan-500' },
-    { id: 'numbers', label: 'Важные номера', icon: 'Phone', color: 'from-purple-500 to-pink-500' },
-    { id: 'transit', label: 'Транспорт', icon: 'Bus', color: 'from-green-500 to-emerald-500' },
-    { id: 'help', label: 'Помощь', icon: 'Heart', color: 'from-red-500 to-rose-500' },
-    { id: 'schedule', label: 'Режим работы', icon: 'Clock', color: 'from-orange-500 to-amber-500' },
-    { id: 'pvz', label: 'ПВЗ', icon: 'Package', color: 'from-indigo-500 to-purple-500' }
+    { id: 'tickets', label: 'Тикеты', icon: 'LifeBuoy' },
+    { id: 'messages', label: 'Системный чат', icon: 'MessageSquare' },
+    { id: 'numbers', label: 'Важные номера', icon: 'Phone' },
+    { id: 'transit', label: 'Транспорт', icon: 'Bus' },
+    { id: 'help', label: 'Помощь', icon: 'Heart' },
+    { id: 'schedule', label: 'Режим работы', icon: 'Clock' },
+    { id: 'pvz', label: 'ПВЗ', icon: 'Package' }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen bg-wb-gray-50">
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         
         <div className="mb-8">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur-lg opacity-50 animate-pulse"></div>
-                <div className="relative p-4 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 shadow-xl">
-                  <Icon name="Settings" size={32} className="text-white" />
-                </div>
+              <div className="p-4 rounded-2xl bg-wb-purple shadow-lg">
+                <Icon name="Settings" size={32} className="text-white" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl md:text-4xl font-bold text-wb-gray-900">
                   Админ-панель
                 </h1>
                 <p className="text-gray-600 mt-1 flex items-center gap-2">
@@ -190,7 +205,7 @@ const AdminPanel = () => {
             <Button
               onClick={() => navigate('/')}
               variant="outline"
-              className="gap-2 hover:bg-purple-50 border-purple-200 hover:border-purple-400 transition-all"
+              className="gap-2 hover:bg-wb-purple/5 border-wb-gray-200 hover:border-wb-purple transition-all"
             >
               <Icon name="Home" size={18} />
               На главную
@@ -198,23 +213,25 @@ const AdminPanel = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-6">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`group relative overflow-hidden rounded-2xl p-4 transition-all duration-300 ${
+              className={`relative rounded-xl p-3 border transition-colors ${
                 activeTab === tab.id
-                  ? 'scale-105 shadow-2xl'
-                  : 'hover:scale-102 shadow-md hover:shadow-xl'
+                  ? 'bg-wb-purple border-wb-purple text-white'
+                  : 'bg-white border-wb-gray-200 text-wb-gray-700 hover:bg-wb-gray-50'
               }`}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${tab.color} ${
-                activeTab === tab.id ? 'opacity-100' : 'opacity-70 group-hover:opacity-90'
-              } transition-opacity`}></div>
-              <div className="relative flex flex-col items-center gap-2 text-white">
-                <Icon name={tab.icon as any} size={24} />
-                <span className="text-sm font-semibold text-center">{tab.label}</span>
+              {tab.id === 'tickets' && ticketsUnread > 0 && (
+                <span className="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                  {ticketsUnread}
+                </span>
+              )}
+              <div className="flex flex-col items-center gap-1.5">
+                <Icon name={tab.icon as any} size={22} />
+                <span className="text-xs font-semibold text-center leading-tight">{tab.label}</span>
               </div>
             </button>
           ))}
@@ -222,6 +239,8 @@ const AdminPanel = () => {
 
         <div className="space-y-6">
           
+          {activeTab === 'tickets' && <TicketsPlatform />}
+
           {activeTab === 'messages' && (
             <SystemMessagesTab
               systemMessages={systemMessages}
@@ -277,11 +296,11 @@ const AdminPanel = () => {
             />
           )}
 
-          {activeTab !== 'messages' && (
+          {activeTab !== 'messages' && activeTab !== 'tickets' && (
             <div className="sticky bottom-4 z-10">
               <Button
                 onClick={saveAllData}
-                className="w-full py-6 text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-2xl hover:shadow-3xl transition-all"
+                className="w-full py-6 text-lg font-bold bg-wb-purple hover:bg-wb-purple-dark shadow-xl transition-colors"
               >
                 <Icon name="Save" size={24} className="mr-2" />
                 💾 Сохранить все изменения

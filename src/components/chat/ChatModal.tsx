@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 import ChannelProfile from "./ChannelProfile";
 import { getSmartResponse } from "@/components/LinaAssistant";
+import { needsAgent, createTicket, addMessage, getMyTickets, TICKETS_EVENT } from "@/lib/ticketService";
 
 interface ChatMessage {
   text: string;
@@ -36,6 +37,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [isLoading, setIsLoading] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const shownAgentMessageIds = useRef<Set<string>>(new Set());
 
   // Функция для воспроизведения мягкого звука "тап"
   const playSendSound = () => {
@@ -161,11 +163,39 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
     return new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
   };
 
-  const playMessageSound = () => {
-    const audio = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADhAC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7v/////////////////////////////////////////////////////////////////AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAA4SC+vk2AAAAAAD/+xDEAAPAAAGkAAAAIAAANIAAAARMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
-    audio.volume = 0.3;
-    audio.play().catch(() => {});
-  };
+  // Подтягиваем ответы специалиста из тикетов в чат
+  useEffect(() => {
+    if (!isOpen || isSystemChat) return;
+
+    const syncAgentReplies = () => {
+      const shown = new Set(shownAgentMessageIds.current);
+      const replies = getMyTickets()
+        .flatMap(t => t.messages.filter(m => m.sender === 'agent'))
+        .filter(m => !shown.has(m.id))
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+
+      if (replies.length === 0) return;
+
+      replies.forEach(m => shownAgentMessageIds.current.add(m.id));
+      setChatMessages(prev => [
+        ...prev,
+        ...replies.map(m => ({
+          text: `👨‍💼 ${m.authorName}: ${m.content}`,
+          sender: 'support' as const,
+          timestamp: new Date(m.createdAt).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+        })),
+      ]);
+    };
+
+    syncAgentReplies();
+    window.addEventListener(TICKETS_EVENT, syncAgentReplies);
+    window.addEventListener('storage', syncAgentReplies);
+    return () => {
+      window.removeEventListener(TICKETS_EVENT, syncAgentReplies);
+      window.removeEventListener('storage', syncAgentReplies);
+    };
+  }, [isOpen, isSystemChat]);
+
 
   const sendMessage = async () => {
     if (chatInput.trim()) {
@@ -178,6 +208,39 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
       playSendSound();
       setChatMessages(prev => [...prev, {text: userMsg, sender: 'user', timestamp: getCurrentTime()}]);
       setChatInput('');
+
+      // Запрос живого специалиста — создаём тикет в поддержке
+      if (needsAgent(userMsg)) {
+        const openTicket = getMyTickets().find(t => t.status === 'open' || t.status === 'in_progress');
+
+        if (openTicket) {
+          addMessage(openTicket.id, 'user', userMsg);
+          setChatMessages(prev => [...prev, {
+            text: `У вас уже открыт тикет ${openTicket.id} — я передала туда ваше сообщение. Специалист ответит здесь же, как только освободится 👌`,
+            sender: 'support',
+            timestamp: getCurrentTime()
+          }]);
+        } else {
+          const history = chatMessages
+            .slice(-6)
+            .map(m => `${m.sender === 'user' ? 'Житель' : 'Лина'}: ${m.text}`)
+            .join('\n');
+
+          const ticket = createTicket({
+            subject: userMsg.slice(0, 80),
+            description: history ? `${history}\nЖитель: ${userMsg}` : userMsg,
+            source: 'chat',
+          });
+
+          setChatMessages(prev => [...prev, {
+            text: `Готово! Создала тикет ${ticket.id} — специалист скоро подключится к диалогу. Ответ придёт сюда, а также уведомлением 🔔`,
+            sender: 'support',
+            timestamp: getCurrentTime()
+          }]);
+        }
+        return;
+      }
+
       setIsLoading(true);
       
       try {
@@ -257,7 +320,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
             <Icon name="ChevronLeft" size={20} />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-wb-purple to-gorkhon-pink flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-wb-purple flex items-center justify-center">
               <Icon name="Headphones" size={18} className="text-white" />
             </div>
             <h3 className="font-semibold text-gray-900 text-base">Поддержка</h3>
@@ -329,7 +392,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                   )}
                   <div className="flex items-end gap-2">
                     {msg.sender === 'support' && (
-                      <span className="text-xs text-gray-500 mb-1">{msg.timestamp || formatTimeIrkutsk()}</span>
+                      <span className="text-xs text-gray-500 mb-1">{msg.timestamp || getCurrentTime()}</span>
                     )}
                     <div 
                       className={`rounded-3xl px-4 py-3 max-w-[75%] ${
@@ -341,7 +404,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                       <p className="text-sm whitespace-pre-line leading-relaxed">{msg.text}</p>
                     </div>
                     {msg.sender === 'user' && (
-                      <span className="text-xs text-gray-500 mb-1">{msg.timestamp || formatTimeIrkutsk()}</span>
+                      <span className="text-xs text-gray-500 mb-1">{msg.timestamp || getCurrentTime()}</span>
                     )}
                   </div>
                   {msg.showAgentButton && (

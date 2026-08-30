@@ -52,20 +52,20 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
   const getRecommendationColor = (reason: RecommendationScore['reason']) => {
     switch (reason) {
       case 'recent':
-        return 'from-blue-500 to-blue-600';
+        return 'bg-gorkhon-blue';
       case 'frequent':
-        return 'from-wb-purple to-wb-purple-dark';
+        return 'bg-wb-purple';
       case 'trending':
-        return 'from-pink-500 to-pink-600';
+        return 'bg-gorkhon-pink';
       case 'related':
-        return 'from-pink-500 to-pink-600';
+        return 'bg-gorkhon-pink';
       default:
-        return 'from-gray-500 to-gray-600';
+        return 'bg-gray-500';
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-indigo-50 via-wb-purple/5 to-pink-50 rounded-xl p-4 border border-indigo-100 shadow-sm relative overflow-hidden">
+    <div className="bg-wb-purple/5 rounded-xl p-4 border border-indigo-100 shadow-sm relative overflow-hidden">
       <button
         onClick={() => setIsVisible(false)}
         className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-white/50"
@@ -75,7 +75,7 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
       </button>
 
       <div className="flex items-center gap-2 mb-3">
-        <div className="bg-gradient-to-r from-indigo-500 to-wb-purple rounded-full p-1.5">
+        <div className="bg-wb-purple rounded-full p-1.5">
           <Icon name="Sparkles" size={16} className="text-white" />
         </div>
         <h3 className="font-semibold text-gray-800 text-sm">
@@ -94,11 +94,11 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
               onClick={() => onSectionClick(rec.sectionId)}
               className="flex-shrink-0 group relative overflow-hidden rounded-lg border border-gray-200 bg-white hover:shadow-md transition-all duration-200 p-3 min-w-[140px]"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${getRecommendationColor(rec.reason)} opacity-0 group-hover:opacity-5 transition-opacity`} />
+              <div className={`absolute inset-0 ${getRecommendationColor(rec.reason)} opacity-0 group-hover:opacity-5 transition-opacity`} />
               
               <div className="relative">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <div className={`bg-gradient-to-r ${getRecommendationColor(rec.reason)} rounded-full p-1`}>
+                  <div className={`${getRecommendationColor(rec.reason)} rounded-full p-1`}>
                     <Icon 
                       name={getRecommendationIcon(rec.reason)} 
                       size={12} 

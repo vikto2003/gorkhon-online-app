@@ -65,12 +65,12 @@ const DonationSection = () => {
   };
 
   const getGradient = (index: number) => {
-    const gradients = ['bg-gradient-blue', 'bg-gradient-warm', 'bg-gradient-brand'];
-    return gradients[index % gradients.length];
+    const colors = ['bg-wb-purple', 'bg-gorkhon-green', 'bg-gorkhon-blue'];
+    return colors[index % colors.length];
   };
 
   return (
-    <Card className="rounded-lg md:rounded-2xl bg-white md:bg-gradient-to-br md:from-white md:to-green-50/30 border border-gray-200 md:border-2 md:border-gorkhon-green/10 shadow-sm md:shadow-lg transition-all duration-300">
+    <Card className="rounded-lg md:rounded-2xl bg-white border border-gray-200 md:border-2 md:border-gorkhon-green/10 shadow-sm md:shadow-lg transition-all duration-300">
       <CardHeader className="p-4 md:pb-4">
         <CardTitle className="flex items-center gap-3 text-gorkhon-green">
           <div className="p-2 rounded-lg md:rounded-full bg-gorkhon-green/10 flex-shrink-0">
@@ -115,7 +115,7 @@ const DonationSection = () => {
         
 
         
-        <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200/50">
+        <div className="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/50">
           <div className="flex items-center gap-2 text-emerald-800 mb-2">
             <Icon name="Users" size={16} />
             <p className="text-sm font-semibold">Благодарим за поддержку!</p>
