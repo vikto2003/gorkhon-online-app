@@ -161,7 +161,7 @@ const Schedule = () => {
           </TabsContent>
         </Tabs>
 
-        <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-blue-50 md:bg-gradient-to-r md:from-blue-50 md:to-purple-50 border border-blue-200/50">
+        <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-lg md:rounded-xl bg-blue-50 md:bg-gradient-to-r md:from-blue-50 md:to-wb-purple/5 border border-blue-200/50">
           <div className="flex items-center gap-2 text-blue-800 mb-2">
             <Icon name="Info" size={16} className="flex-shrink-0" />
             <p className="text-sm md:text-sm font-semibold">Полезная информация</p>

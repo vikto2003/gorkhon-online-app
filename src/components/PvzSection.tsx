@@ -276,7 +276,7 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                     className="w-8 h-8 object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
                   />
                 ) : (
-                  <Icon name={pvz.icon as any} size={22} className="text-purple-600 group-hover:text-gorkhon-pink group-hover:scale-110 transition-all duration-300" />
+                  <Icon name={pvz.icon as any} size={22} className="text-wb-purple group-hover:text-gorkhon-pink group-hover:scale-110 transition-all duration-300" />
                 )}
               </div>
               <div className="flex-1">
@@ -298,11 +298,11 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                 {pvz.note && (
                   <div className="space-y-3">
                     {pvz.note.includes("Примерочные") && (
-                      <div className="p-3.5 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200/60 shadow-sm">
+                      <div className="p-3.5 rounded-xl bg-gradient-to-r from-wb-purple/5 to-pink-50 border border-wb-purple/20 shadow-sm">
                         <div className="flex items-center gap-2.5">
-                          <Icon name="ShoppingBag" size={16} className="text-purple-600" />
-                          <p className="text-sm font-bold text-purple-900">Примерочные:</p>
-                          <p className="text-sm font-semibold text-purple-700">2 шт.</p>
+                          <Icon name="ShoppingBag" size={16} className="text-wb-purple" />
+                          <p className="text-sm font-bold text-wb-purple-dark">Примерочные:</p>
+                          <p className="text-sm font-semibold text-wb-purple">2 шт.</p>
                         </div>
                       </div>
                     )}
@@ -370,7 +370,7 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
           </div>
         ))}
         
-        <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-gorkhon-pink/5 to-purple-50 border border-gorkhon-pink/20 shadow-sm">
+        <div className="mt-6 p-5 rounded-2xl bg-gradient-to-r from-gorkhon-pink/5 to-wb-purple/5 border border-gorkhon-pink/20 shadow-sm">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 rounded-lg bg-gorkhon-pink/10">
               <Icon name="Truck" size={18} className="text-gorkhon-pink" />

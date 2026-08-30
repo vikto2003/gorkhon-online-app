@@ -54,7 +54,7 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
       case 'recent':
         return 'from-blue-500 to-blue-600';
       case 'frequent':
-        return 'from-purple-500 to-purple-600';
+        return 'from-wb-purple to-wb-purple-dark';
       case 'trending':
         return 'from-pink-500 to-pink-600';
       case 'related':
@@ -65,7 +65,7 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
   };
 
   return (
-    <div className="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-xl p-4 border border-indigo-100 shadow-sm relative overflow-hidden">
+    <div className="bg-gradient-to-r from-indigo-50 via-wb-purple/5 to-pink-50 rounded-xl p-4 border border-indigo-100 shadow-sm relative overflow-hidden">
       <button
         onClick={() => setIsVisible(false)}
         className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-white/50"
@@ -75,7 +75,7 @@ const RecommendationsBanner = ({ availableSections, sections, onSectionClick }: 
       </button>
 
       <div className="flex items-center gap-2 mb-3">
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full p-1.5">
+        <div className="bg-gradient-to-r from-indigo-500 to-wb-purple rounded-full p-1.5">
           <Icon name="Sparkles" size={16} className="text-white" />
         </div>
         <h3 className="font-semibold text-gray-800 text-sm">

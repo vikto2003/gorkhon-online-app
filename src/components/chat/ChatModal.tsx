@@ -257,7 +257,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
             <Icon name="ChevronLeft" size={20} />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-wb-purple to-gorkhon-pink flex items-center justify-center">
               <Icon name="Headphones" size={18} className="text-white" />
             </div>
             <h3 className="font-semibold text-gray-900 text-base">Поддержка</h3>
@@ -278,7 +278,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                       setChatInput(action);
                       setQuickActions([]);
                     }}
-                    className="px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-xs font-medium transition-colors border border-purple-200"
+                    className="px-3 py-2 bg-wb-purple/5 hover:bg-wb-purple/10 text-wb-purple rounded-xl text-xs font-medium transition-colors border border-wb-purple/20"
                   >
                     {action}
                   </button>
@@ -334,8 +334,8 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                     <div 
                       className={`rounded-3xl px-4 py-3 max-w-[75%] ${
                         msg.sender === 'user' 
-                          ? 'ml-auto bg-gradient-to-br from-purple-500 via-purple-600 to-pink-500 text-white' 
-                          : 'bg-purple-50 text-gray-900'
+                          ? 'ml-auto bg-wb-purple text-white' 
+                          : 'bg-gray-100 text-gray-900'
                       }`}
                     >
                       <p className="text-sm whitespace-pre-line leading-relaxed">{msg.text}</p>
@@ -358,7 +358,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                   {msg.showAdminLink && (
                     <a
                       href="/admin-panel"
-                      className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors shadow-sm"
+                      className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-wb-purple text-white rounded-lg hover:bg-wb-purple-dark transition-colors shadow-sm"
                     >
                       <Icon name="Settings" size={18} />
                       <span className="text-sm font-medium">Открыть админ-панель</span>
@@ -411,7 +411,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
                 <button 
                   onClick={sendMessage}
                   disabled={!chatInput.trim()}
-                  className="bg-gradient-to-br from-purple-500 to-pink-500 text-white p-2.5 rounded-full active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                  className="bg-wb-purple text-white p-2.5 rounded-full active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                 >
                   <Icon name="Send" size={18} />
                 </button>

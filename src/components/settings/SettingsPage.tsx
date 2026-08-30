@@ -7,7 +7,7 @@ interface SettingsPageProps {
   onFAQOpen: () => void;
 }
 
-const APP_VERSION = '3.8.0';
+const APP_VERSION = '3.9.0';
 
 const SettingsPage = ({ onChatOpen, onDocumentOpen, onFAQOpen }: SettingsPageProps) => {
   const [updateAvailable, setUpdateAvailable] = useState(false);

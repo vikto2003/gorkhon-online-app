@@ -74,9 +74,9 @@ export default {
 					orange: '#FFA800'
 				},
 				wb: {
-					purple: '#CB11AB',
-					'purple-dark': '#A91590',
-					'purple-light': '#E040D2',
+					purple: '#471AFF',
+					'purple-dark': '#2F00F0',
+					'purple-light': '#633DFF',
 					gray: {
 						50: '#FAFAFA',
 						100: '#F5F5F5',

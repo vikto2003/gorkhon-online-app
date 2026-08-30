@@ -79,7 +79,7 @@ export default function InstallPrompt() {
   if (showInstructions) {
     return (
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300">
-        <Card className="max-w-md w-full bg-gradient-to-br from-white via-blue-50/30 to-purple-50/20 border-2 border-gorkhon-pink/40 shadow-2xl">
+        <Card className="max-w-md w-full bg-gradient-to-br from-white via-blue-50/30 to-wb-purple/10 border-2 border-gorkhon-pink/40 shadow-2xl">
           <CardHeader className="relative pb-4">
             <button
               onClick={() => setShowInstructions(false)}
@@ -92,7 +92,7 @@ export default function InstallPrompt() {
                 <Icon name="Download" size={24} className="text-gorkhon-blue" />
               </div>
               <div>
-                <span className="text-xl font-bold bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-purple-600 bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-wb-purple bg-clip-text text-transparent">
                   Установить приложение
                 </span>
                 <p className="text-sm text-gray-600 font-normal mt-1">
@@ -228,7 +228,7 @@ export default function InstallPrompt() {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-40 animate-in slide-in-from-bottom duration-500">
-      <Card className="bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-purple-600 text-white shadow-2xl border-0 overflow-hidden">
+      <Card className="bg-gradient-to-r from-gorkhon-blue via-gorkhon-pink to-wb-purple text-white shadow-2xl border-0 overflow-hidden">
         <CardContent className="p-4 relative">
           <button
             onClick={handleDismiss}

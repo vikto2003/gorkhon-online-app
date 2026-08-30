@@ -10,6 +10,8 @@ import SettingsPage from "@/components/settings/SettingsPage";
 import ChatModal from "@/components/chat/ChatModal";
 import DocumentModal from "@/components/documents/DocumentModal";
 import FAQ from "@/components/documents/FAQ";
+import SearchModal from "@/components/search/SearchModal";
+import type { SearchItem } from "@/components/search/searchIndex";
 
 
 interface Photo {
@@ -24,17 +26,18 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<BottomNavTab>('main');
   const [activeDocument, setActiveDocument] = useState<'privacy' | 'terms' | 'security' | null>(null);
   const [isFAQOpen, setIsFAQOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
-      const APP_VERSION = '3.8.0';
+      const APP_VERSION = '3.9.0';
       const currentVersion = localStorage.getItem('appVersion');
       const notificationShown = sessionStorage.getItem('updateNotificationShown');
       
       if (currentVersion !== APP_VERSION && !notificationShown && 'Notification' in window) {
         if (Notification.permission === 'granted') {
-          new Notification('🚀 Важное обновление!', {
-            body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
+          new Notification('🎨 Новый дизайн приложения!', {
+            body: `Мы обновили дизайн: убрали лишнее, добавили поиск по платформе и упростили навигацию. Загляните — стало удобнее!`,
             icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
             badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
             tag: 'app-update',
@@ -45,8 +48,8 @@ const Index = () => {
         } else if (Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
-            new Notification('🚀 Важное обновление!', {
-              body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
+            new Notification('🎨 Новый дизайн приложения!', {
+              body: `Мы обновили дизайн: убрали лишнее, добавили поиск по платформе и упростили навигацию. Загляните — стало удобнее!`,
               icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
               tag: 'app-update',
               requireInteraction: true,
@@ -143,14 +146,28 @@ const Index = () => {
     setActiveTab('settings');
   }, []);
 
+  const handleSearchNavigate = useCallback((action: SearchItem['action']) => {
+    if (action.type === 'tab') {
+      setActiveTab(action.tab);
+    } else if (action.type === 'tel') {
+      window.open(`tel:${action.phone}`, '_self');
+    } else if (action.type === 'scroll') {
+      setActiveTab('main');
+      setTimeout(() => {
+        document.getElementById(action.anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <>
       <SplashScreen />
       <div className="min-h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full">
         
         <Header 
-          currentVersion="3.8.0"
+          currentVersion="3.9.0"
           onUpdateClick={handleUpdateClick}
+          onSearchClick={() => setIsSearchOpen(true)}
         />
 
         <div className="flex pt-16 md:pt-16">
@@ -183,6 +200,12 @@ const Index = () => {
         </div>
 
         <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          onNavigate={handleSearchNavigate}
+        />
 
         <ChatModal 
           isOpen={isChatOpen}

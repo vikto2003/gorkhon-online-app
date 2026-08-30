@@ -49,7 +49,7 @@ const WorkSchedule = () => {
   };
 
   return (
-    <Card className="animate-fade-in rounded-2xl bg-gradient-to-br from-white to-purple-50/30 border-2 border-gorkhon-blue/10 shadow-lg hover:shadow-xl transition-all duration-300">
+    <Card className="animate-fade-in rounded-2xl bg-gradient-to-br from-white to-wb-purple/5 border-2 border-gorkhon-blue/10 shadow-lg hover:shadow-xl transition-all duration-300">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-3 text-gorkhon-blue">
           <div className="p-2 rounded-full bg-gorkhon-blue/10 animate-pulse">
@@ -63,7 +63,7 @@ const WorkSchedule = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         {workSchedule.map((item, index) => (
-          <div key={index} className="group p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-purple-50/50 hover:from-gorkhon-blue/5 hover:to-gorkhon-blue/10 transition-all duration-300 border border-slate-200/50 hover:border-gorkhon-blue/20 hover:shadow-md">
+          <div key={index} className="group p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-wb-purple/5 hover:from-gorkhon-blue/5 hover:to-gorkhon-blue/10 transition-all duration-300 border border-slate-200/50 hover:border-gorkhon-blue/20 hover:shadow-md">
             <div className="flex gap-4 mb-3">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-gorkhon-blue/10 to-gorkhon-blue/5 group-hover:from-gorkhon-blue/20 group-hover:to-gorkhon-blue/10 transition-all duration-300 flex-shrink-0">
                 <Icon name={item.icon} size={18} className="text-gorkhon-blue group-hover:scale-110 transition-transform duration-300" />

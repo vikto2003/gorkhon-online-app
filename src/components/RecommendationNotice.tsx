@@ -31,8 +31,8 @@ const RecommendationNotice = () => {
       <div className="bg-white rounded-t-2xl md:rounded-2xl w-full md:w-96 md:max-w-md shadow-2xl animate-in slide-in-from-bottom duration-300">
         <div className="p-6">
           <div className="flex items-start gap-4">
-            <div className="p-3 rounded-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex-shrink-0">
-              <Icon name="Info" size={24} className="text-blue-600" />
+            <div className="p-3 rounded-full bg-wb-purple/10 flex-shrink-0">
+              <Icon name="Info" size={24} className="text-wb-purple" />
             </div>
             
             <div className="flex-1">
@@ -54,7 +54,7 @@ const RecommendationNotice = () => {
               <div className="flex gap-2">
                 <button
                   onClick={handleLearnMore}
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-colors text-sm font-medium"
+                  className="flex-1 px-4 py-2 bg-wb-purple text-white rounded-lg hover:bg-wb-purple-dark transition-colors text-sm font-medium"
                 >
                   Подробнее
                 </button>
