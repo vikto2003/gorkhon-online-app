@@ -1,14 +1,11 @@
-import Icon from "@/components/ui/icon";
 import NotificationBell from "./NotificationBell";
 
 interface HeaderProps {
-  onMenuClick: () => void;
-  isSidebarOpen: boolean;
   currentVersion: string;
   onUpdateClick: () => void;
 }
 
-const Header = ({ onMenuClick, isSidebarOpen, currentVersion, onUpdateClick }: HeaderProps) => {
+const Header = ({ currentVersion, onUpdateClick }: HeaderProps) => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
       <div className="shadow-sm backdrop-blur-sm bg-white border-b border-gray-200 rounded-b-2xl" style={{paddingTop: 'max(env(safe-area-inset-top, 0px), 0px)'}}>
@@ -17,13 +14,6 @@ const Header = ({ onMenuClick, isSidebarOpen, currentVersion, onUpdateClick }: H
             <span className="text-xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
             <div className="absolute right-0 flex items-center gap-1">
               <NotificationBell currentVersion={currentVersion} onUpdateClick={onUpdateClick} />
-              <button 
-                onClick={onMenuClick}
-                className="text-wb-purple p-3 -m-2 active:bg-gray-100 rounded-xl transition-all duration-200 active:scale-95 min-w-[48px] min-h-[48px] flex items-center justify-center"
-                aria-label="Открыть меню"
-              >
-                <Icon name="Menu" size={26} />
-              </button>
             </div>
           </div>
         
@@ -31,12 +21,6 @@ const Header = ({ onMenuClick, isSidebarOpen, currentVersion, onUpdateClick }: H
             <span className="text-2xl font-bold text-wb-gray-900">Горхон<span className="text-wb-purple">.Online</span></span>
             <div className="flex items-center gap-2">
               <NotificationBell currentVersion={currentVersion} onUpdateClick={onUpdateClick} />
-              <button 
-                onClick={onMenuClick}
-                className="text-wb-purple p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <Icon name="Menu" size={24} />
-              </button>
             </div>
           </div>
         </div>

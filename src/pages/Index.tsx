@@ -5,7 +5,8 @@ import SplashScreen from "@/components/SplashScreen";
 import RecommendationNotice from "@/components/RecommendationNotice";
 import Home from "@/components/sections/Home";
 import Header from "@/components/layout/Header";
-import Sidebar from "@/components/layout/Sidebar";
+import BottomNav, { type BottomNavTab } from "@/components/layout/BottomNav";
+import SettingsPage from "@/components/settings/SettingsPage";
 import ChatModal from "@/components/chat/ChatModal";
 import DocumentModal from "@/components/documents/DocumentModal";
 import FAQ from "@/components/documents/FAQ";
@@ -20,7 +21,7 @@ const Index = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [selectedPvzPhotos, setSelectedPvzPhotos] = useState<Photo[]>([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<BottomNavTab>('main');
   const [activeDocument, setActiveDocument] = useState<'privacy' | 'terms' | 'security' | null>(null);
   const [isFAQOpen, setIsFAQOpen] = useState(false);
 
@@ -139,7 +140,7 @@ const Index = () => {
   }, [selectedImageIndex, selectedPvzPhotos.length]);
 
   const handleUpdateClick = useCallback(() => {
-    setIsSidebarOpen(true);
+    setActiveTab('settings');
   }, []);
 
   return (
@@ -148,38 +149,40 @@ const Index = () => {
       <div className="min-h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full">
         
         <Header 
-          onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          isSidebarOpen={isSidebarOpen}
           currentVersion="3.8.0"
           onUpdateClick={handleUpdateClick}
         />
 
         <div className="flex pt-16 md:pt-16">
-          <main className="flex-1 bg-wb-gray-50 min-h-screen relative z-10 overflow-x-hidden">
+          <main className="flex-1 bg-wb-gray-50 min-h-screen relative z-10 overflow-x-hidden pb-20">
             <div className="max-w-full md:max-w-2xl mx-auto px-4 pt-2 pb-4 md:p-4 space-y-4 md:space-y-6 md:pb-4">
-              <Home onOpenPhotoCarousel={openPhotoCarousel} />
-              
-              <div className="text-center pt-4 pb-2">
-                <a 
-                  href="/recommendations-policy.html" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  Применяются рекомендательные технологии
-                </a>
-              </div>
+              {activeTab === 'main' ? (
+                <>
+                  <Home onOpenPhotoCarousel={openPhotoCarousel} />
+                  
+                  <div className="text-center pt-4 pb-2">
+                    <a 
+                      href="/recommendations-policy.html" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      Применяются рекомендательные технологии
+                    </a>
+                  </div>
+                </>
+              ) : (
+                <SettingsPage
+                  onChatOpen={() => setIsChatOpen(true)}
+                  onDocumentOpen={(doc) => setActiveDocument(doc)}
+                  onFAQOpen={() => setIsFAQOpen(true)}
+                />
+              )}
             </div>
           </main>
         </div>
 
-        <Sidebar 
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
-          onChatOpen={() => setIsChatOpen(true)}
-          onDocumentOpen={(doc) => setActiveDocument(doc)}
-          onFAQOpen={() => setIsFAQOpen(true)}
-        />
+        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
 
         <ChatModal 
           isOpen={isChatOpen}
