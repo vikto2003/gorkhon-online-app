@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, memo } from "react";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import InstallPrompt from "@/components/InstallPrompt";
 import SplashScreen from "@/components/SplashScreen";
