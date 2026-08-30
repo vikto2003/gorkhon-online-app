@@ -9,13 +9,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/105c73f5-f5b6-433d-9c1e-6bb261422bcf.png",
+      "src": "/favicon-192.png?v=8",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/105c73f5-f5b6-433d-9c1e-6bb261422bcf.png",
+      "src": "/favicon-512.png?v=8",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

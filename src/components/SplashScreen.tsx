@@ -38,9 +38,12 @@ export default function SplashScreen() {
       }`}
     >
       <img 
-        src="https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png" 
+        src="https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png" 
         alt="Горхон.Online"
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain p-8"
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        style={{ WebkitUserSelect: 'none', userSelect: 'none', WebkitTouchCallout: 'none' }}
       />
     </div>
   );

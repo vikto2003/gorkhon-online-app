@@ -34,8 +34,8 @@ const Index = () => {
         if (Notification.permission === 'granted') {
           new Notification('🚀 Важное обновление!', {
             body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
-            icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
-            badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+            icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
+            badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
             tag: 'app-update',
             requireInteraction: true,
             vibrate: [200, 100, 200]
@@ -46,7 +46,7 @@ const Index = () => {
           if (permission === 'granted') {
             new Notification('🚀 Важное обновление!', {
               body: `⚠️ Изменения в расписании! Заиграево → Горхон теперь 3 раза в неделю (ПН, СР, ПТ). Нажмите для подробностей.`,
-              icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/a1a580c6-2f15-4ed8-91d1-d06df7cf1647.png',
+              icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
               tag: 'app-update',
               requireInteraction: true,
               vibrate: [200, 100, 200]
