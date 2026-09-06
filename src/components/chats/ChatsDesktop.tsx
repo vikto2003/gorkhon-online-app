@@ -1,43 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { externalChats } from "./externalChats";
-import SupportChatPanel from "@/components/chat/SupportChatPanel";
-import { getSupportPreview, TICKETS_EVENT } from "@/lib/ticketService";
 
-type SelectedChat = 'support' | string;
-
-const formatPreviewTime = (iso?: string) => {
-  if (!iso) return '';
-  const date = new Date(iso);
-  const now = new Date();
-  const isToday = date.toDateString() === now.toDateString();
-  if (isToday) return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
-};
+type SelectedChat = string;
 
 // Десктопная версия вкладки «Чаты»: список слева (стиль MAX/Telegram Desktop),
 // переписка/контент справа.
 const ChatsDesktop = () => {
-  const [selected, setSelected] = useState<SelectedChat>('support');
+  const [selected, setSelected] = useState<SelectedChat>(externalChats[0]?.url ?? '');
   const [query, setQuery] = useState('');
-  const [supportPreview, setSupportPreview] = useState(getSupportPreview());
-
-  useEffect(() => {
-    const sync = () => setSupportPreview(getSupportPreview());
-    sync();
-    window.addEventListener(TICKETS_EVENT, sync);
-    window.addEventListener('storage', sync);
-    return () => {
-      window.removeEventListener(TICKETS_EVENT, sync);
-      window.removeEventListener('storage', sync);
-    };
-  }, []);
 
   const selectedExternal = externalChats.find(c => c.url === selected);
   const q = query.trim().toLowerCase();
   const filteredExternal = externalChats.filter(c => !q || c.name.toLowerCase().includes(q) || c.preview.toLowerCase().includes(q));
-  const showSupport = !q || 'агент поддержки'.includes(q) || supportPreview.preview.toLowerCase().includes(q);
-  const supportTime = formatPreviewTime(supportPreview.updatedAt) || 'сейчас';
 
   return (
     <div className="flex h-full">
@@ -57,35 +32,6 @@ const ChatsDesktop = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto">
-          {showSupport && (
-            <button
-              onClick={() => setSelected('support')}
-              className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                selected === 'support' ? 'bg-wb-purple/5' : 'hover:bg-wb-gray-50'
-              }`}
-            >
-              <div className="w-11 h-11 rounded-full bg-wb-purple flex items-center justify-center flex-shrink-0">
-                <Icon name="Headphones" size={20} className="text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="font-semibold text-sm text-wb-gray-900 truncate">Агент поддержки</p>
-                  <span className="text-[11px] text-wb-gray-400 flex-shrink-0">{supportTime}</span>
-                </div>
-                <div className="flex items-center justify-between gap-2 mt-0.5">
-                  <p className="text-xs text-wb-gray-500 truncate">
-                    {supportPreview.lastSenderIsUser && 'Вы: '}{supportPreview.preview}
-                  </p>
-                  {supportPreview.unread > 0 && (
-                    <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-wb-purple text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-                      {supportPreview.unread > 9 ? '9+' : supportPreview.unread}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </button>
-          )}
-
           {filteredExternal.map((chat) => (
             <button
               key={chat.url}
@@ -112,7 +58,7 @@ const ChatsDesktop = () => {
             </button>
           ))}
 
-          {!showSupport && filteredExternal.length === 0 && (
+          {filteredExternal.length === 0 && (
             <div className="px-4 py-10 text-center text-sm text-wb-gray-400">Ничего не найдено</div>
           )}
         </div>
@@ -128,9 +74,7 @@ const ChatsDesktop = () => {
       </div>
 
       <div className="flex-1 min-w-0">
-        {selected === 'support' ? (
-          <SupportChatPanel />
-        ) : selectedExternal ? (
+        {selectedExternal ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-8">
             {selectedExternal.avatar ? (
               <img src={selectedExternal.avatar} alt={selectedExternal.name} className="w-20 h-20 rounded-full object-cover mb-4" />
@@ -151,7 +95,12 @@ const ChatsDesktop = () => {
               Открыть чат
             </a>
           </div>
-        ) : null}
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-center px-8 text-wb-gray-400">
+            <Icon name="MessageCircle" size={40} className="mb-3" />
+            <p className="text-sm">Выберите чат слева</p>
+          </div>
+        )}
       </div>
     </div>
   );

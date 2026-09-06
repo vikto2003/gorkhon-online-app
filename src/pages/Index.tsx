@@ -217,7 +217,7 @@ const Index = () => {
 
           {isChatsTab ? (
             <div className="md:flex-1 md:min-h-0">
-              <ChatsPage onSupportOpen={openSupportChat} />
+              <ChatsPage />
             </div>
           ) : (
             <div className="md:flex-1 md:min-h-0 md:overflow-y-auto">

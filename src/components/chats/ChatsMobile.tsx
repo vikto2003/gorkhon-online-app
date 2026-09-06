@@ -1,53 +1,20 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Icon from "@/components/ui/icon";
 import { externalChats } from "./externalChats";
-import { getSupportPreview, TICKETS_EVENT } from "@/lib/ticketService";
 
-interface ChatsMobileProps {
-  onSupportOpen: () => void;
-}
+type FilterTab = 'all' | 'community';
 
-type FilterTab = 'all' | 'support' | 'community';
-
-const formatPreviewTime = (iso?: string) => {
-  if (!iso) return '';
-  const date = new Date(iso);
-  const now = new Date();
-  const isToday = date.toDateString() === now.toDateString();
-  if (isToday) return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
-};
-
-const ChatsMobile = ({ onSupportOpen }: ChatsMobileProps) => {
+const ChatsMobile = () => {
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState<FilterTab>('all');
-  const [supportPreview, setSupportPreview] = useState(getSupportPreview());
-
-  useEffect(() => {
-    const sync = () => setSupportPreview(getSupportPreview());
-    sync();
-    window.addEventListener(TICKETS_EVENT, sync);
-    window.addEventListener('storage', sync);
-    return () => {
-      window.removeEventListener(TICKETS_EVENT, sync);
-      window.removeEventListener('storage', sync);
-    };
-  }, []);
 
   const filteredExternal = useMemo(() => {
     const q = query.trim().toLowerCase();
     return externalChats.filter((c) => {
-      if (tab === 'support') return false;
       if (!q) return true;
       return c.name.toLowerCase().includes(q) || c.preview.toLowerCase().includes(q);
     });
-  }, [query, tab]);
-
-  const showSupport = tab !== 'community' && (!query.trim() ||
-    'агент поддержки'.includes(query.toLowerCase()) ||
-    supportPreview.preview.toLowerCase().includes(query.toLowerCase()));
-
-  const supportTime = formatPreviewTime(supportPreview.updatedAt) || 'сейчас';
+  }, [query]);
 
   return (
     <div className="flex flex-col h-full -mx-4 -mt-2 md:mx-0 md:mt-0">
@@ -74,7 +41,6 @@ const ChatsMobile = ({ onSupportOpen }: ChatsMobileProps) => {
       <div className="px-4 pb-2 flex items-center gap-2 overflow-x-auto scrollbar-hide">
         {([
           { id: 'all' as const, label: 'Все' },
-          { id: 'support' as const, label: 'Поддержка' },
           { id: 'community' as const, label: 'Посёлок' },
         ]).map((f) => (
           <button
@@ -93,33 +59,6 @@ const ChatsMobile = ({ onSupportOpen }: ChatsMobileProps) => {
 
       {/* Список чатов */}
       <div className="flex-1 overflow-y-auto">
-        {showSupport && (
-          <button
-            onClick={onSupportOpen}
-            className="w-full flex items-center gap-3 px-4 py-3 text-left active:bg-wb-gray-50 transition-colors border-b border-wb-gray-50"
-          >
-            <div className="w-12 h-12 rounded-full bg-wb-purple flex items-center justify-center flex-shrink-0">
-              <Icon name="Headphones" size={22} className="text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <p className="font-semibold text-[15px] text-wb-gray-900 truncate">Агент поддержки</p>
-                <span className="text-xs text-wb-gray-400 flex-shrink-0">{supportTime}</span>
-              </div>
-              <div className="flex items-center justify-between gap-2 mt-0.5">
-                <p className="text-sm text-wb-gray-500 truncate">
-                  {supportPreview.lastSenderIsUser && 'Вы: '}{supportPreview.preview}
-                </p>
-                {supportPreview.unread > 0 && (
-                  <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-wb-purple text-white text-[11px] font-bold flex items-center justify-center flex-shrink-0">
-                    {supportPreview.unread > 9 ? '9+' : supportPreview.unread}
-                  </span>
-                )}
-              </div>
-            </div>
-          </button>
-        )}
-
         {filteredExternal.map((chat) => (
           <a
             key={chat.url}
@@ -151,7 +90,7 @@ const ChatsMobile = ({ onSupportOpen }: ChatsMobileProps) => {
           </a>
         ))}
 
-        {!showSupport && filteredExternal.length === 0 && (
+        {filteredExternal.length === 0 && (
           <div className="px-4 py-10 text-center text-sm text-wb-gray-400">Ничего не найдено</div>
         )}
 
