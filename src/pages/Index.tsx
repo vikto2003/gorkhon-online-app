@@ -33,16 +33,17 @@ const Index = () => {
 
   useEffect(() => {
     const checkAndNotifyUpdate = async () => {
-      const APP_VERSION = '3.9.0';
+      const APP_VERSION = '3.9.1';
       const currentVersion = localStorage.getItem('appVersion');
       const notificationShown = sessionStorage.getItem('updateNotificationShown');
+      const newIcon = 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/49a4926a-8d83-465d-ba36-1bb75c363f14.png';
       
       if (currentVersion !== APP_VERSION && !notificationShown && 'Notification' in window) {
         if (Notification.permission === 'granted') {
-          new Notification('🎨 Новый дизайн приложения!', {
-            body: `Мы обновили дизайн: убрали лишнее, добавили поиск по платформе и упростили навигацию. Загляните — стало удобнее!`,
-            icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
-            badge: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
+          new Notification('🎨 Обновили иконку приложения!', {
+            body: `Мы сменили иконку НАШ chat. Она обновится автоматически — переустанавливать приложение не нужно.`,
+            icon: newIcon,
+            badge: newIcon,
             tag: 'app-update',
             requireInteraction: true,
             vibrate: [200, 100, 200]
@@ -51,9 +52,9 @@ const Index = () => {
         } else if (Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
-            new Notification('🎨 Новый дизайн приложения!', {
-              body: `Мы обновили дизайн: убрали лишнее, добавили поиск по платформе и упростили навигацию. Загляните — стало удобнее!`,
-              icon: 'https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/6642dbf5-9434-4dca-abb3-693152bd21d7.png',
+            new Notification('🎨 Обновили иконку приложения!', {
+              body: `Мы сменили иконку НАШ chat. Она обновится автоматически — переустанавливать приложение не нужно.`,
+              icon: newIcon,
               tag: 'app-update',
               requireInteraction: true,
               vibrate: [200, 100, 200]
@@ -188,7 +189,7 @@ const Index = () => {
       <div className="min-h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full">
         
         <Header 
-          currentVersion="3.9.0"
+          currentVersion="3.9.1"
           onUpdateClick={handleUpdateClick}
           onSearchClick={() => setIsSearchOpen(true)}
         />
