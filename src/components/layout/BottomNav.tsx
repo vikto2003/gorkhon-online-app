@@ -17,7 +17,7 @@ const tabs: { id: BottomNavTab; label: string; icon: string }[] = [
 const BottomNav = ({ activeTab, onTabChange, chatsBadge = 0 }: BottomNavProps) => {
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200"
       style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 0px)' }}
     >
       <div className="flex items-stretch max-w-2xl mx-auto">

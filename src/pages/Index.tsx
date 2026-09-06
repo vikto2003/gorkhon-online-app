@@ -5,6 +5,8 @@ import SplashScreen from "@/components/SplashScreen";
 import RecommendationNotice from "@/components/RecommendationNotice";
 import Home from "@/components/sections/Home";
 import Header from "@/components/layout/Header";
+import DesktopRail from "@/components/layout/DesktopRail";
+import NotificationBell from "@/components/layout/NotificationBell";
 import BottomNav, { type BottomNavTab } from "@/components/layout/BottomNav";
 import SettingsPage from "@/components/settings/SettingsPage";
 import ChatsPage from "@/components/chats/ChatsPage";
@@ -183,46 +185,70 @@ const Index = () => {
     }
   }, []);
 
+  const isChatsTab = activeTab === 'chats';
+
   return (
     <>
       <SplashScreen />
-      <div className="min-h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full">
-        
+      <div className="min-h-screen md:h-screen bg-wb-gray-50 relative overflow-x-hidden w-full max-w-full md:flex md:overflow-hidden">
+
+        <DesktopRail
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onSearchClick={() => setIsSearchOpen(true)}
+          chatsBadge={chatsUnread}
+        />
+
         <Header 
           currentVersion="3.9.1"
           onUpdateClick={handleUpdateClick}
           onSearchClick={() => setIsSearchOpen(true)}
         />
 
-        <div className="flex pt-16 md:pt-16">
-          <main className="flex-1 bg-wb-gray-50 min-h-screen relative z-10 overflow-x-hidden pb-20">
-            <div className="max-w-full md:max-w-2xl mx-auto px-4 pt-2 pb-4 md:p-4 space-y-4 md:space-y-6 md:pb-4">
-              {activeTab === 'main' ? (
-                <>
-                  <Home onOpenPhotoCarousel={openPhotoCarousel} />
-                  
-                  <div className="text-center pt-4 pb-2">
-                    <a 
-                      href="/recommendations-policy.html" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      Применяются рекомендательные технологии
-                    </a>
-                  </div>
-                </>
-              ) : activeTab === 'chats' ? (
-                <ChatsPage onSupportOpen={openSupportChat} />
-              ) : (
-                <SettingsPage
-                  onChatOpen={openSupportChat}
-                  onDocumentOpen={(doc) => setActiveDocument(doc)}
-                  onFAQOpen={() => setIsFAQOpen(true)}
-                />
-              )}
+        <div className="md:flex-1 md:flex md:flex-col md:min-w-0 md:h-full">
+          {!isChatsTab && (
+            <div className="hidden md:flex items-center justify-between px-6 py-3.5 border-b border-wb-gray-200 bg-white flex-shrink-0">
+              <h2 className="font-semibold text-wb-gray-900">
+                {activeTab === 'main' ? 'Главное' : 'Настройки'}
+              </h2>
+              <NotificationBell currentVersion="3.9.1" onUpdateClick={handleUpdateClick} />
             </div>
-          </main>
+          )}
+
+          {isChatsTab ? (
+            <div className="md:flex-1 md:min-h-0">
+              <ChatsPage onSupportOpen={openSupportChat} />
+            </div>
+          ) : (
+            <div className="md:flex-1 md:min-h-0 md:overflow-y-auto">
+              <main className="flex-1 bg-wb-gray-50 min-h-screen md:min-h-0 relative z-10 overflow-x-hidden pt-16 md:pt-0 pb-20 md:pb-0">
+                <div className="max-w-full md:max-w-3xl mx-auto px-4 pt-2 pb-4 md:p-6 space-y-4 md:space-y-6">
+                  {activeTab === 'main' ? (
+                    <>
+                      <Home onOpenPhotoCarousel={openPhotoCarousel} />
+
+                      <div className="text-center pt-4 pb-2">
+                        <a
+                          href="/recommendations-policy.html"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          Применяются рекомендательные технологии
+                        </a>
+                      </div>
+                    </>
+                  ) : (
+                    <SettingsPage
+                      onChatOpen={openSupportChat}
+                      onDocumentOpen={(doc) => setActiveDocument(doc)}
+                      onFAQOpen={() => setIsFAQOpen(true)}
+                    />
+                  )}
+                </div>
+              </main>
+            </div>
+          )}
         </div>
 
         <BottomNav activeTab={activeTab} onTabChange={setActiveTab} chatsBadge={chatsUnread} />
