@@ -67,6 +67,27 @@ export const getUnreadForAdmin = (): number =>
 export const getUnreadForUser = (): number =>
   getMyTickets().reduce((sum, t) => sum + (t.unreadForUser || 0), 0);
 
+export interface SupportPreview {
+  preview: string;
+  updatedAt?: string;
+  unread: number;
+  lastSenderIsUser: boolean;
+}
+
+// Превью последнего сообщения из чата поддержки — для списка чатов (стиль MAX)
+export const getSupportPreview = (): SupportPreview => {
+  const tickets = [...getMyTickets()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const last = tickets[0];
+  const lastMsg = last?.messages[last.messages.length - 1];
+
+  return {
+    preview: lastMsg?.content || 'Ответим на вопросы и поможем 24/7',
+    updatedAt: lastMsg?.createdAt,
+    unread: getUnreadForUser(),
+    lastSenderIsUser: lastMsg?.sender === 'user',
+  };
+};
+
 export const createTicket = (params: {
   subject: string;
   description: string;

@@ -142,6 +142,17 @@ export default {
 				'spin-360': {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
+				},
+				'nav-icon-pop': {
+					'0%': { transform: 'scale(1)' },
+					'30%': { transform: 'scale(1.35) translateY(-3px)' },
+					'55%': { transform: 'scale(0.92) translateY(0)' },
+					'100%': { transform: 'scale(1)' }
+				},
+				'nav-badge-pop': {
+					'0%': { transform: 'scale(0)' },
+					'60%': { transform: 'scale(1.25)' },
+					'100%': { transform: 'scale(1)' }
 				}
 			},
 			animation: {
@@ -153,7 +164,9 @@ export default {
 				'marquee-reverse': 'marquee-reverse 15s linear infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'glow': 'glow 2s ease-in-out infinite',
-				'spin-360': 'spin-360 8s linear infinite'
+				'spin-360': 'spin-360 8s linear infinite',
+				'nav-icon-pop': 'nav-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+				'nav-badge-pop': 'nav-badge-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)'
 			},
 			backgroundImage: {
 				'gradient-brand': 'linear-gradient(135deg, #005BFF 0%, #F1117E 50%, #00BE6C 100%)',
