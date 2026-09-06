@@ -15,6 +15,7 @@ import DocumentModal from "@/components/documents/DocumentModal";
 import FAQ from "@/components/documents/FAQ";
 import SearchModal from "@/components/search/SearchModal";
 import type { SearchItem } from "@/components/search/searchIndex";
+import NotificationsPanel from "@/components/notifications/NotificationsPanel";
 import { getUnreadForUser, getMyTickets, markReadByUser, TICKETS_EVENT } from "@/lib/ticketService";
 
 
@@ -31,6 +32,7 @@ const Index = () => {
   const [activeDocument, setActiveDocument] = useState<'privacy' | 'terms' | 'security' | null>(null);
   const [isFAQOpen, setIsFAQOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [chatsUnread, setChatsUnread] = useState(0);
 
   useEffect(() => {
@@ -202,7 +204,7 @@ const Index = () => {
         <Header 
           currentVersion="3.9.1"
           onUpdateClick={handleUpdateClick}
-          onSearchClick={() => setIsSearchOpen(true)}
+          onNotificationsClick={() => setIsNotificationsOpen(true)}
         />
 
         <div className="md:flex-1 md:flex md:flex-col md:min-w-0 md:h-full">
@@ -211,7 +213,7 @@ const Index = () => {
               <h2 className="font-semibold text-wb-gray-900">
                 {activeTab === 'main' ? 'Главное' : 'Настройки'}
               </h2>
-              <NotificationBell currentVersion="3.9.1" onUpdateClick={handleUpdateClick} />
+              <NotificationBell currentVersion="3.9.1" onUpdateClick={handleUpdateClick} onNotificationsClick={() => setIsNotificationsOpen(true)} />
             </div>
           )}
 
@@ -257,6 +259,19 @@ const Index = () => {
           isOpen={isSearchOpen}
           onClose={() => setIsSearchOpen(false)}
           onNavigate={handleSearchNavigate}
+        />
+
+        <NotificationsPanel
+          isOpen={isNotificationsOpen}
+          onClose={() => setIsNotificationsOpen(false)}
+          onOpenSupport={() => {
+            setIsNotificationsOpen(false);
+            openSupportChat();
+          }}
+          onUpdateClick={() => {
+            setIsNotificationsOpen(false);
+            handleUpdateClick();
+          }}
         />
 
         <ChatModal 
