@@ -5,7 +5,13 @@ interface UserProfile {
   id: string;
   name: string;
   email: string;
-  status: 'active' | 'blocked' | 'pending';
+  status: 'active' | 'inactive' | 'banned' | 'pending';
+  role: 'admin' | 'moderator' | 'user';
+  isVerified: boolean;
+  createdAt: string;
+  loginCount: number;
+  avatar?: string;
+  phone?: string;
 }
 
 interface DatabaseStats {
@@ -36,7 +42,7 @@ const UserManagement = () => {
   };
 
   const exportData = () => {
-    const data = userService.exportUsers();
+    const data = JSON.stringify(users, null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -45,19 +51,6 @@ const UserManagement = () => {
     a.click();
     URL.revokeObjectURL(url);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="flex items-center justify-center h-64">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-            <p className="text-gray-600">Загрузка данных...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-3 sm:p-6">
