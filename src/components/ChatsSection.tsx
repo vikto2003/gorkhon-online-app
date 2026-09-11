@@ -1,25 +1,33 @@
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import { getDefaultChats } from "@/components/admin/defaultData";
+import type { ChatItem } from "@/components/admin/types";
 
 const ChatsSection = () => {
-  const chats = [
-    {
-      name: "Новости Горхон",
-      platform: "MAX",
-      logo: "https://max.ru/favicon.ico",
-      url: "https://max.ru/join/3eGYRla63lvcgxOAc8Mg9lsKYa1N8IiMEvG1Kw2W_NY",
-      icon: "Megaphone",
-      color: "bg-blue-500"
-    },
-    {
-      name: "Купи-продай Горхон",
-      platform: "Telegram",
-      logo: "https://telegram.org/favicon.ico",
-      url: "https://t.me/+gW1J_CEno-ZjZDhi",
-      icon: "ShoppingBag",
-      color: "bg-[#0088cc]"
+  const [chats, setChats] = useState<ChatItem[]>(getDefaultChats());
+
+  const loadData = useCallback(() => {
+    try {
+      const savedContent = localStorage.getItem('homePageContent');
+      if (savedContent) {
+        const content = JSON.parse(savedContent);
+        if (content.chats && content.chats.length > 0) {
+          setChats(content.chats);
+          return;
+        }
+      }
+      setChats(getDefaultChats());
+    } catch {
+      setChats(getDefaultChats());
     }
-  ];
+  }, []);
+
+  useEffect(() => {
+    loadData();
+    window.addEventListener('storage', loadData);
+    return () => window.removeEventListener('storage', loadData);
+  }, [loadData]);
 
   return (
     <Card className="rounded-xl bg-white border border-wb-gray-200 shadow-sm transition-all duration-200">
@@ -45,7 +53,7 @@ const ChatsSection = () => {
             <div className="flex items-center gap-3 md:gap-4 w-full">
               <div className="flex items-center gap-2.5 md:gap-3 flex-1 min-w-0 overflow-hidden">
                 <div className={`p-2 rounded-lg ${chat.color} flex-shrink-0`}>
-                  <Icon name={chat.icon} size={18} className="text-white" />
+                  <Icon name={chat.icon as any} size={18} className="text-white" />
                 </div>
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <p className="font-semibold text-sm md:text-base text-wb-gray-900 truncate">{chat.name}</p>

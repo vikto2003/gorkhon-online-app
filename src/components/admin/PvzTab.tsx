@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import Icon from "@/components/ui/icon";
 import { PvzItem } from './types';
 
@@ -69,8 +70,46 @@ const PvzTab = ({
                 }}
               />
             </div>
+
+            <Input
+              placeholder="Ссылка на логотип ПВЗ (URL, необязательно)"
+              value={item.logoUrl || ''}
+              onChange={(e) => {
+                const updated = [...pvzItems];
+                updated[idx] = { ...updated[idx], logoUrl: e.target.value };
+                setPvzItems(updated);
+              }}
+            />
+
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 border border-gray-100">
+              <Checkbox
+                id={`fitting-${idx}`}
+                checked={!!item.hasFitting}
+                onCheckedChange={(checked) => {
+                  const updated = [...pvzItems];
+                  updated[idx] = { ...updated[idx], hasFitting: !!checked };
+                  setPvzItems(updated);
+                }}
+              />
+              <label htmlFor={`fitting-${idx}`} className="text-sm font-medium text-gray-700 flex-shrink-0">
+                Есть примерочные
+              </label>
+              {item.hasFitting && (
+                <Input
+                  placeholder="Сколько (например 2 шт.)"
+                  value={item.fittingCount || ''}
+                  onChange={(e) => {
+                    const updated = [...pvzItems];
+                    updated[idx] = { ...updated[idx], fittingCount: e.target.value };
+                    setPvzItems(updated);
+                  }}
+                  className="flex-1"
+                />
+              )}
+            </div>
+
             <Textarea
-              placeholder="Описание / как добраться / примерочные"
+              placeholder="Описание / как добраться"
               value={item.note || ''}
               onChange={(e) => {
                 const updated = [...pvzItems];

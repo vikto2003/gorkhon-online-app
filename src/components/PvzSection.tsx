@@ -14,7 +14,9 @@ interface PvzItem {
   schedule: string;
   phone: string;
   hasFitting?: boolean;
+  fittingCount?: string;
   icon?: string;
+  logoUrl?: string;
   photos?: PvzPhoto[];
   chatLink?: string;
   note?: string;
@@ -211,20 +213,14 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
             <div className="absolute top-0 right-0 w-40 h-40 bg-gorkhon-pink/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             <div className="flex items-center gap-4 mb-5 relative z-10">
               <div className="p-3.5 rounded-2xl bg-gorkhon-pink/10 group-hover:bg-gorkhon-pink/20 transition-all duration-300 shadow-sm">
-                {pvz.name.includes("OZON") ? (
+                {pvz.logoUrl ? (
                   <img 
-                    src="https://cdn.poehali.dev/files/32eb6963-076a-4663-ae00-1f8c03ea5d9b.jpg" 
-                    alt="OZON Logo" 
-                    className="w-8 h-8 object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
-                  />
-                ) : pvz.name.includes("Wildberries") ? (
-                  <img 
-                    src="https://cdn.poehali.dev/files/38960a87-147c-4cc0-b90c-f662509e11d0.jpg" 
-                    alt="Wildberries Logo" 
+                    src={pvz.logoUrl} 
+                    alt={`${pvz.name} Logo`} 
                     className="w-8 h-8 object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
                   />
                 ) : (
-                  <Icon name={pvz.icon as any} size={22} className="text-wb-purple group-hover:text-gorkhon-pink group-hover:scale-110 transition-all duration-300" />
+                  <Icon name={(pvz.icon as any) || 'Package'} size={22} className="text-wb-purple group-hover:text-gorkhon-pink group-hover:scale-110 transition-all duration-300" />
                 )}
               </div>
               <div className="flex-1">
@@ -249,7 +245,8 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
                       <div className="p-3.5 rounded-xl bg-wb-purple/5 border border-wb-purple/20 shadow-sm">
                         <div className="flex items-center gap-2.5">
                           <Icon name="ShoppingBag" size={16} className="text-wb-purple" />
-                          <p className="text-sm font-bold text-wb-purple-dark">Есть примерочные</p>
+                          <p className="text-sm font-bold text-wb-purple-dark">Примерочные:</p>
+                          <p className="text-sm font-semibold text-wb-purple">{pvz.fittingCount || 'есть'}</p>
                         </div>
                       </div>
                     )}

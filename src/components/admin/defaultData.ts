@@ -1,4 +1,4 @@
-import { ImportantNumber, WorkScheduleItem, PvzItem, HelpItem, TransportScheduleData } from './types';
+import { ImportantNumber, WorkScheduleItem, PvzItem, HelpItem, TransportScheduleData, ChatItem, DoctorButton } from './types';
 
 export const getDefaultNumbers = (): ImportantNumber[] => [
   { name: "Участковый", person: "Бадмаев Баир Баторович", phone: "+7 (924) 754-32-18", icon: "Shield" },
@@ -54,9 +54,11 @@ export const getDefaultPvz = (): PvzItem[] => [
     schedule: "Ежедневно: 10:00-20:00",
     phone: "",
     hasFitting: true,
+    fittingCount: "2 шт.",
     note: "Пункт выдачи заказов находится в центре посёлка Лесозаводской, напротив школы. Удобная парковка. Будем рады видеть Вас в нашем ПВЗ!",
     chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
     icon: "Package",
+    logoUrl: "https://cdn.poehali.dev/files/38960a87-147c-4cc0-b90c-f662509e11d0.jpg",
     photos: [
       { url: "https://cdn.poehali.dev/files/effd940b-46bf-46ab-b102-56fc7574bce1.png", caption: "Вход в ПВЗ Wildberries" },
       { url: "https://cdn.poehali.dev/files/db11a90a-322e-4e28-acdb-1230afb19cf1.png", caption: "Интерьер ПВЗ Wildberries" },
@@ -70,9 +72,11 @@ export const getDefaultPvz = (): PvzItem[] => [
     schedule: "Ежедневно: 10:00-20:00",
     phone: "",
     hasFitting: true,
+    fittingCount: "2 шт.",
     note: "Пункт выдачи заказов находится напротив школы, рядом со зданием бывшей амбулатории, ориентир — вывеска Ozon. До встречи на Ozon!",
     chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
     icon: "Package",
+    logoUrl: "https://cdn.poehali.dev/files/32eb6963-076a-4663-ae00-1f8c03ea5d9b.jpg",
     photos: [
       { url: "https://cdn.poehali.dev/files/4cb01698-d8de-4264-b9bc-e863b3667eb4.jpg", caption: "Фасад здания с ПВЗ OZON" },
       { url: "https://cdn.poehali.dev/files/528564ea-ccc2-46de-be3b-2faec284f4ea.jpg", caption: "Рабочее место ПВЗ OZON" },
@@ -87,6 +91,7 @@ export const getDefaultPvz = (): PvzItem[] => [
     hasFitting: false,
     note: "Пос. Горхон, ул. Железнодорожная, 31/2, продуктовый магазин «Татьяна», ориентир — вывеска Ozon. До встречи на Ozon!",
     icon: "Package",
+    logoUrl: "https://cdn.poehali.dev/files/32eb6963-076a-4663-ae00-1f8c03ea5d9b.jpg",
     photos: [
       { url: "https://cdn.poehali.dev/files/69129961-1abb-4f9d-add3-302072129183.png", caption: "ПВЗ OZON, посёлок Горхон, ул. Железнодорожная, 31/2. Автор: Команда Горхон" }
     ]
@@ -99,11 +104,37 @@ export const getDefaultPvz = (): PvzItem[] => [
     hasFitting: false,
     note: "ПВЗ находится в отделении почты 671333",
     icon: "Package",
+    logoUrl: "https://cdn.poehali.dev/files/38960a87-147c-4cc0-b90c-f662509e11d0.jpg",
     photos: [
       { url: "https://cdn.poehali.dev/files/aec305dc-bf96-4997-83aa-fdb9be3bfd4c.jpg", caption: "ПВЗ Wildberries, ул. Железнодорожная, 15" }
     ]
   }
 ];
+
+export const getDefaultChats = (): ChatItem[] => [
+  {
+    name: "Новости Горхон",
+    platform: "MAX",
+    url: "https://max.ru/join/3eGYRla63lvcgxOAc8Mg9lsKYa1N8IiMEvG1Kw2W_NY",
+    icon: "Megaphone",
+    color: "bg-blue-500"
+  },
+  {
+    name: "Купи-продай Горхон",
+    platform: "Telegram",
+    url: "https://t.me/+gW1J_CEno-ZjZDhi",
+    icon: "ShoppingBag",
+    color: "bg-[#0088cc]"
+  }
+];
+
+export const getDefaultDoctorButton = (): DoctorButton => ({
+  title: "Запись к врачу",
+  subtitle: "Чат с Заиграевской ЦРБ",
+  note: "Быстро и удобно",
+  buttonText: "Записаться",
+  url: "https://t.me/ZaigrCRB/8"
+});
 
 export const getDefaultTransportSchedule = (): TransportScheduleData => ({
   regular: [

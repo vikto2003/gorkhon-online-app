@@ -17,9 +17,11 @@ export interface PvzItem {
   schedule: string;
   phone: string;
   hasFitting: boolean;
+  fittingCount?: string;
   note?: string;
   chatLink?: string;
   icon?: string;
+  logoUrl?: string;
   photos: { url: string; caption: string; }[];
 }
 
@@ -53,4 +55,20 @@ export interface TransportScheduleData {
   temporary: TransportScheduleGroup[];
   temporaryNoticeTitle: string;
   temporaryNoticeText: string;
+}
+
+export interface ChatItem {
+  name: string;
+  platform: string;
+  url: string;
+  icon: string;
+  color: string;
+}
+
+export interface DoctorButton {
+  title: string;
+  subtitle: string;
+  note: string;
+  buttonText: string;
+  url: string;
 }
