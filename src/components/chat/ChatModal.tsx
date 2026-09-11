@@ -22,7 +22,7 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     if (!isSystemChat) {
       return [
-        {text: '👋 Привет! Я Лина — ваша помощница в Горхоне!\n\nГотова ответить на вопросы о расписании, услугах и жизни в поселке. Чем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+        {text: '👋 Привет! Я Лина — ваша помощница на платформе «НАШ чат»!\n\nГотова ответить на вопросы о расписании, услугах и жизни в посёлке, а ещё помочь разобраться с самой платформой. Чем помочь?', sender: 'support', timestamp: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
       ];
     }
     return [];
@@ -197,6 +197,33 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
   }, [isOpen, isSystemChat]);
 
 
+  // Создаёт тикет (или дописывает в открытый) и возвращает текст-подтверждение для пользователя
+  const escalateToAgent = (userMsg: string, linaReply?: string): string => {
+    const openTicket = getMyTickets().find(t => t.status === 'open' || t.status === 'in_progress');
+
+    if (openTicket) {
+      addMessage(openTicket.id, 'user', userMsg);
+      return `У вас уже открыт тикет ${openTicket.id} — я передала туда ваше сообщение. Специалист ответит здесь же, как только освободится 👌`;
+    }
+
+    const history = chatMessages
+      .slice(-6)
+      .map(m => `${m.sender === 'user' ? 'Житель' : 'Лина'}: ${m.text}`)
+      .join('\n');
+
+    const description = [history, `Житель: ${userMsg}`, linaReply ? `Лина: ${linaReply}` : null]
+      .filter(Boolean)
+      .join('\n');
+
+    const ticket = createTicket({
+      subject: userMsg.slice(0, 80),
+      description,
+      source: 'chat',
+    });
+
+    return `Готово! Создала тикет ${ticket.id} — специалист скоро подключится к диалогу в разделе поддержки. Ответ придёт сюда, а также уведомлением 🔔`;
+  };
+
   const sendMessage = async () => {
     if (chatInput.trim()) {
       const userMsg = chatInput.trim();
@@ -209,42 +236,21 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
       setChatMessages(prev => [...prev, {text: userMsg, sender: 'user', timestamp: getCurrentTime()}]);
       setChatInput('');
 
-      // Запрос живого специалиста — создаём тикет в поддержке
+      // Явный запрос живого специалиста по ключевым словам — создаём тикет сразу
       if (needsAgent(userMsg)) {
-        const openTicket = getMyTickets().find(t => t.status === 'open' || t.status === 'in_progress');
-
-        if (openTicket) {
-          addMessage(openTicket.id, 'user', userMsg);
-          setChatMessages(prev => [...prev, {
-            text: `У вас уже открыт тикет ${openTicket.id} — я передала туда ваше сообщение. Специалист ответит здесь же, как только освободится 👌`,
-            sender: 'support',
-            timestamp: getCurrentTime()
-          }]);
-        } else {
-          const history = chatMessages
-            .slice(-6)
-            .map(m => `${m.sender === 'user' ? 'Житель' : 'Лина'}: ${m.text}`)
-            .join('\n');
-
-          const ticket = createTicket({
-            subject: userMsg.slice(0, 80),
-            description: history ? `${history}\nЖитель: ${userMsg}` : userMsg,
-            source: 'chat',
-          });
-
-          setChatMessages(prev => [...prev, {
-            text: `Готово! Создала тикет ${ticket.id} — специалист скоро подключится к диалогу. Ответ придёт сюда, а также уведомлением 🔔`,
-            sender: 'support',
-            timestamp: getCurrentTime()
-          }]);
-        }
+        const confirmation = escalateToAgent(userMsg);
+        setChatMessages(prev => [...prev, {
+          text: confirmation,
+          sender: 'support',
+          timestamp: getCurrentTime()
+        }]);
         return;
       }
 
       setIsLoading(true);
       
       try {
-        const response = await fetch('https://functions.poehali.dev/e4be3d7a-182c-4c4c-a31f-fe79ef32def1', {
+        const response = await fetch('https://functions.poehali.dev/86afc7b0-d617-4d0d-a955-53265aaafa55', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -263,6 +269,16 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
             sender: 'support',
             timestamp: getCurrentTime()
           }]);
+
+          // Лина сама решила, что нужен живой специалист — создаём тикет
+          if (data.needsAgent) {
+            const confirmation = escalateToAgent(userMsg, data.message);
+            setChatMessages(prev => [...prev, {
+              text: confirmation,
+              sender: 'support',
+              timestamp: getCurrentTime()
+            }]);
+          }
         } else {
           setChatMessages(prev => [...prev, {
             text: 'Извините, произошла ошибка. Попробуйте ещё раз! 😔',

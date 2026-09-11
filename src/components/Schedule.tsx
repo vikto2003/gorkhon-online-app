@@ -1,66 +1,40 @@
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Icon from "@/components/ui/icon";
-
-interface RouteInfo {
-  route: string;
-  time: string;
-  price: string;
-}
-
-interface TransportSchedule {
-  type: string;
-  routes: RouteInfo[];
-}
+import { getDefaultTransportSchedule } from "@/components/admin/defaultData";
+import type { TransportScheduleData, TransportScheduleGroup } from "@/components/admin/types";
 
 const Schedule = () => {
-  const regularScheduleData: TransportSchedule[] = [
-    {
-      type: "🚌 Автобус",
-      routes: [
-        { route: "Горхон → УУ", time: "7:00 (ПН-ПТ)", price: "500₽" },
-        { route: "Горхон → УУ", time: "8:00 (СБ-ВС, 16:30 ВС студ.)", price: "500₽" },
-        { route: "Горхон → Заиграево", time: "7:00, 14:15 (ПН-ПТ)", price: "290₽" },
-        { route: "Заиграево → Горхон", time: "13:00, вечером городской", price: "290₽" }
-      ]
-    },
-    {
-      type: "🚞 Электричка", 
-      routes: [
-        { route: "Горхон → УУ", time: "05:32 (ПН)", price: "296₽" },
-        { route: "Горхон → УУ", time: "09:27 (СБ)", price: "296₽" },
-        { route: "УУ → Горхон", time: "17:40 (ПТ)", price: "296₽" },
-        { route: "УУ → Горхон", time: "08:35 (ВС)", price: "296₽" }
-      ]
-    }
-  ];
+  const [scheduleData, setScheduleData] = useState<TransportScheduleData>(getDefaultTransportSchedule());
 
-  const temporaryScheduleData: TransportSchedule[] = [
-    {
-      type: "🚌 Автобус (временное расписание)",
-      routes: [
-        { route: "Горхон → УУ", time: "7:00 (ПН-ПТ)", price: "500₽" },
-        { route: "Горхон → УУ", time: "8:00 (СБ-ВС, 16:30 ВС студ.)", price: "500₽" },
-        { route: "Горхон → Заиграево", time: "Городской по расписанию", price: "290₽" },
-        { route: "Заиграево → Горхон", time: "13:00 (только ПН, СР, ПТ)", price: "290₽" }
-      ]
-    },
-    {
-      type: "🚞 Электричка", 
-      routes: [
-        { route: "Горхон → УУ", time: "05:32 (ПН)", price: "296₽" },
-        { route: "Горхон → УУ", time: "09:27 (СБ)", price: "296₽" },
-        { route: "УУ → Горхон", time: "17:40 (ПТ)", price: "296₽" },
-        { route: "УУ → Горхон", time: "08:35 (ВС)", price: "296₽" }
-      ]
+  const loadData = () => {
+    try {
+      const savedContent = localStorage.getItem('homePageContent');
+      if (savedContent) {
+        const content = JSON.parse(savedContent);
+        if (content.transportSchedule) {
+          setScheduleData(content.transportSchedule);
+          return;
+        }
+      }
+      setScheduleData(getDefaultTransportSchedule());
+    } catch {
+      setScheduleData(getDefaultTransportSchedule());
     }
-  ];
+  };
 
-  const renderSchedule = (scheduleData: TransportSchedule[]) => (
+  useEffect(() => {
+    loadData();
+    window.addEventListener('storage', loadData);
+    return () => window.removeEventListener('storage', loadData);
+  }, []);
+
+  const renderSchedule = (scheduleGroups: TransportScheduleGroup[]) => (
     <>
-      {scheduleData.map((transport, index) => (
+      {scheduleGroups.map((transport, index) => (
           <div key={index}>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-base">{transport.type.split(' ')[0]}</span>
@@ -97,7 +71,7 @@ const Schedule = () => {
               ))}
             </div>
             
-            {index < scheduleData.length - 1 && (
+            {index < scheduleGroups.length - 1 && (
               <div className="flex items-center gap-3 mt-3 md:mt-5 mb-1">
                 <Separator className="flex-1" />
                 <div className="p-1 rounded-full bg-gorkhon-orange/10">
@@ -137,27 +111,24 @@ const Schedule = () => {
           </TabsList>
 
           <TabsContent value="temporary" className="space-y-4">
-            <div className="p-3 md:p-4 rounded-lg bg-orange-50 border border-orange-200">
-              <div className="flex items-start gap-2 mb-2">
-                <Icon name="AlertTriangle" size={18} className="text-orange-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-semibold text-orange-900 mb-1">⚠️ Временные изменения</p>
-                  <p className="text-xs text-orange-800 leading-relaxed">
-                    Маршрут <strong>Заиграево → Горхон</strong> временно сократили количество рейсов. 
-                    Вместо 5 раз в неделю, будет ходить <strong>3 раза в неделю</strong> (понедельник, среда, пятница). 
-                    Не забудьте, кто планирует поездку!
-                  </p>
-                  <p className="text-xs text-orange-700 mt-2 font-medium">
-                    🚌 Городской автобус как ходил, так и будет ходить по расписанию.
-                  </p>
+            {(scheduleData.temporaryNoticeTitle || scheduleData.temporaryNoticeText) && (
+              <div className="p-3 md:p-4 rounded-lg bg-orange-50 border border-orange-200">
+                <div className="flex items-start gap-2 mb-2">
+                  <Icon name="AlertTriangle" size={18} className="text-orange-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-orange-900 mb-1">{scheduleData.temporaryNoticeTitle}</p>
+                    <p className="text-xs text-orange-800 leading-relaxed">
+                      {scheduleData.temporaryNoticeText}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {renderSchedule(temporaryScheduleData)}
+            )}
+            {renderSchedule(scheduleData.temporary)}
           </TabsContent>
 
           <TabsContent value="regular" className="space-y-4">
-            {renderSchedule(regularScheduleData)}
+            {renderSchedule(scheduleData.regular)}
           </TabsContent>
         </Tabs>
 

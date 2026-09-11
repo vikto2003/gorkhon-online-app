@@ -17,6 +17,9 @@ export interface PvzItem {
   schedule: string;
   phone: string;
   hasFitting: boolean;
+  note?: string;
+  chatLink?: string;
+  icon?: string;
   photos: { url: string; caption: string; }[];
 }
 
@@ -32,4 +35,22 @@ export interface HelpItem {
   description: string;
   contact: string;
   icon: string;
+}
+
+export interface TransportRoute {
+  route: string;
+  time: string;
+  price: string;
+}
+
+export interface TransportScheduleGroup {
+  type: string;
+  routes: TransportRoute[];
+}
+
+export interface TransportScheduleData {
+  regular: TransportScheduleGroup[];
+  temporary: TransportScheduleGroup[];
+  temporaryNoticeTitle: string;
+  temporaryNoticeText: string;
 }

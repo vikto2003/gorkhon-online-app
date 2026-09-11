@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { getDefaultPvz } from "@/components/admin/defaultData";
 
 interface PvzPhoto {
   url: string;
@@ -17,6 +17,7 @@ interface PvzItem {
   icon?: string;
   photos?: PvzPhoto[];
   chatLink?: string;
+  note?: string;
 }
 
 interface PvzSectionProps {
@@ -167,82 +168,29 @@ const PhotoCarousel = ({ photos, onPhotoClick }: PhotoCarouselProps) => {
 };
 
 const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
-  const pvzData: PvzItem[] = useMemo(() => [
-    {
-      name: "Wildberries",
-      address: "пос. Лесозаводской, ул. Трудовая, 12",
-      schedule: "Ежедневно: 10:00-20:00",
-      note: "Примерочные: 2 шт. Пункт выдачи заказов находится в центре посёлка Лесозаводской, напротив школы. Удобная парковка. Будем рады видеть Вас в нашем ПВЗ!",
-      icon: "Package",
-      chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
-      photos: [
-        {
-          url: "https://cdn.poehali.dev/files/effd940b-46bf-46ab-b102-56fc7574bce1.png", 
-          caption: "Вход в ПВЗ Wildberries"
-        },
-        {
-          url: "https://cdn.poehali.dev/files/db11a90a-322e-4e28-acdb-1230afb19cf1.png",
-          caption: "Интерьер ПВЗ Wildberries"
-        },
-        {
-          url: "https://cdn.poehali.dev/files/dd085655-24de-4ab0-8877-256127c92015.png",
-          caption: "Зона обслуживания ПВЗ Wildberries"
-        },
-        {
-          url: "https://cdn.poehali.dev/files/93fc597d-3650-43d1-ad6c-7ce489b8e9c8.png",
-          caption: "Примерочные кабины ПВЗ Wildberries"
+  const [pvzData, setPvzData] = useState<PvzItem[]>(getDefaultPvz());
+
+  const loadData = useCallback(() => {
+    try {
+      const savedContent = localStorage.getItem('homePageContent');
+      if (savedContent) {
+        const content = JSON.parse(savedContent);
+        if (content.pvzItems && content.pvzItems.length > 0) {
+          setPvzData(content.pvzItems);
+          return;
         }
-      ]
-    },
-    {
-      name: "OZON",
-      address: "пос. Лесозаводской, ул. Трудовая, 12",
-      schedule: "Ежедневно: 10:00-20:00",
-      note: "Примерочные: 2 шт. Пункт выдачи заказов находится напротив школы, рядом со зданием бывшей амбулатории, ориентир — вывеска Ozon. До встречи на Ozon!",
-      icon: "Package",
-      chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
-      photos: [
-        {
-          url: "https://cdn.poehali.dev/files/4cb01698-d8de-4264-b9bc-e863b3667eb4.jpg",
-          caption: "Фасад здания с ПВЗ OZON"
-        },
-        {
-          url: "https://cdn.poehali.dev/files/528564ea-ccc2-46de-be3b-2faec284f4ea.jpg", 
-          caption: "Рабочее место ПВЗ OZON"
-        },
-        {
-          url: "https://cdn.poehali.dev/files/25a0c47e-7995-4c0b-a44e-440b27806401.jpg",
-          caption: "Примерочные кабины ПВЗ OZON"
-        }
-      ]
-    },
-    {
-      name: "OZON",
-      address: "посёлок Горхон, ул. Железнодорожная, 31/2",
-      schedule: "Ежедневно: 10:00 – 19:00",
-      note: "Пос. Горхон, ул. Железнодорожная, 31/2, продуктовый магазин «Татьяна», ориентир — вывеска Ozon. До встречи на Ozon!",
-      icon: "Package",
-      photos: [
-        {
-          url: "https://cdn.poehali.dev/files/69129961-1abb-4f9d-add3-302072129183.png",
-          caption: "ПВЗ OZON, посёлок Горхон, ул. Железнодорожная, 31/2. Автор: Команда Горхон"
-        }
-      ]
-    },
-    {
-      name: "Wildberries",
-      address: "п. Горхон, ул. Железнодорожная, д. 15",
-      schedule: "Пн, Ср-Пт: 09:00-17:00 (перерыв 13:00-14:00), Сб: 09:00-16:00 (перерыв 13:00-14:00), Вт, Вс: выходной",
-      note: "ПВЗ находится в отделении почты 671333",
-      icon: "Package",
-      photos: [
-        {
-          url: "https://cdn.poehali.dev/files/aec305dc-bf96-4997-83aa-fdb9be3bfd4c.jpg",
-          caption: "ПВЗ Wildberries, ул. Железнодорожная, 15"
-        }
-      ]
+      }
+      setPvzData(getDefaultPvz());
+    } catch {
+      setPvzData(getDefaultPvz());
     }
-  ], []);
+  }, []);
+
+  useEffect(() => {
+    loadData();
+    window.addEventListener('storage', loadData);
+    return () => window.removeEventListener('storage', loadData);
+  }, [loadData]);
 
   return (
     <Card className="animate-fade-in rounded-2xl bg-white border-2 border-gorkhon-pink/10 shadow-lg hover:shadow-xl transition-all duration-300">
@@ -295,31 +243,18 @@ const PvzSection = ({ onOpenPhotoCarousel }: PvzSectionProps) => {
               </div>
               
               <div className="space-y-4">
-                {pvz.note && (
+                {(pvz.hasFitting || pvz.note) && (
                   <div className="space-y-3">
-                    {pvz.note.includes("Примерочные") && (
+                    {pvz.hasFitting && (
                       <div className="p-3.5 rounded-xl bg-wb-purple/5 border border-wb-purple/20 shadow-sm">
                         <div className="flex items-center gap-2.5">
                           <Icon name="ShoppingBag" size={16} className="text-wb-purple" />
-                          <p className="text-sm font-bold text-wb-purple-dark">Примерочные:</p>
-                          <p className="text-sm font-semibold text-wb-purple">2 шт.</p>
+                          <p className="text-sm font-bold text-wb-purple-dark">Есть примерочные</p>
                         </div>
                       </div>
                     )}
-                    
-                    {(pvz.note.includes("Пункт выдачи заказов находится") || pvz.note.includes("напротив школы") || pvz.note.includes("Пос. Горхон") || pvz.note.includes("продуктовый магазин")) && !pvz.note.includes("почты") && (
-                      <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200/60 shadow-sm">
-                        <div className="flex items-center gap-2.5 mb-2">
-                          <Icon name="MapPin" size={16} className="text-blue-600" />
-                          <p className="text-sm font-bold text-blue-900">Как добраться</p>
-                        </div>
-                        <p className="text-sm text-blue-700 leading-relaxed">
-                          {pvz.note.replace(/^Примерочные: 2 шт\.\s*/, '')}
-                        </p>
-                      </div>
-                    )}
-                    
-                    {pvz.note.includes("почты") && (
+
+                    {pvz.note && (
                       <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200/60 shadow-sm">
                         <div className="flex items-center gap-2.5 mb-2">
                           <Icon name="MapPin" size={16} className="text-blue-600" />

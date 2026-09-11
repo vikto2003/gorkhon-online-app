@@ -3,20 +3,21 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
-import { ImportantNumber, WorkScheduleItem, PvzItem, SystemMessage, HelpItem } from '@/components/admin/types';
-import { getDefaultNumbers, getDefaultTransit, getDefaultHelp, getDefaultSchedule, getDefaultPvz } from '@/components/admin/defaultData';
+import { ImportantNumber, WorkScheduleItem, PvzItem, SystemMessage, HelpItem, TransportScheduleData } from '@/components/admin/types';
+import { getDefaultNumbers, getDefaultTransit, getDefaultHelp, getDefaultSchedule, getDefaultPvz, getDefaultTransportSchedule } from '@/components/admin/defaultData';
 import SystemMessagesTab from '@/components/admin/SystemMessagesTab';
 import ImportantNumbersTab from '@/components/admin/ImportantNumbersTab';
 import TransitTab from '@/components/admin/TransitTab';
 import HelpTab from '@/components/admin/HelpTab';
 import ScheduleTab from '@/components/admin/ScheduleTab';
 import PvzTab from '@/components/admin/PvzTab';
+import TransportScheduleTab from '@/components/admin/TransportScheduleTab';
 import TicketsPlatform from '@/components/admin/TicketsPlatform';
 import { getUnreadForAdmin, TICKETS_EVENT } from '@/lib/ticketService';
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'numbers' | 'transit' | 'help' | 'schedule' | 'pvz' | 'messages' | 'tickets'>('tickets');
+  const [activeTab, setActiveTab] = useState<'numbers' | 'transit' | 'transportSchedule' | 'help' | 'schedule' | 'pvz' | 'messages' | 'tickets'>('tickets');
   const [ticketsUnread, setTicketsUnread] = useState(0);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
@@ -25,6 +26,7 @@ const AdminPanel = () => {
   const [helpItems, setHelpItems] = useState<HelpItem[]>([]);
   const [workSchedule, setWorkSchedule] = useState<WorkScheduleItem[]>([]);
   const [pvzItems, setPvzItems] = useState<PvzItem[]>([]);
+  const [transportSchedule, setTransportSchedule] = useState<TransportScheduleData>(getDefaultTransportSchedule());
   const [systemMessages, setSystemMessages] = useState<SystemMessage[]>([]);
   const [newMessageText, setNewMessageText] = useState('');
 
@@ -73,12 +75,14 @@ const AdminPanel = () => {
         setHelpItems(content.helpItems || getDefaultHelp());
         setWorkSchedule(content.workSchedule || getDefaultSchedule());
         setPvzItems(content.pvzItems || getDefaultPvz());
+        setTransportSchedule(content.transportSchedule || getDefaultTransportSchedule());
       } else {
         setImportantNumbers(getDefaultNumbers());
         setTransitNumbers(getDefaultTransit());
         setHelpItems(getDefaultHelp());
         setWorkSchedule(getDefaultSchedule());
         setPvzItems(getDefaultPvz());
+        setTransportSchedule(getDefaultTransportSchedule());
       }
       
       const savedMessages = localStorage.getItem('systemMessages');
@@ -98,7 +102,8 @@ const AdminPanel = () => {
         transitNumbers,
         helpItems,
         workSchedule,
-        pvzItems
+        pvzItems,
+        transportSchedule
       };
       
       localStorage.setItem('homePageContent', JSON.stringify(content));
@@ -171,7 +176,8 @@ const AdminPanel = () => {
     { id: 'tickets', label: 'Тикеты', icon: 'LifeBuoy' },
     { id: 'messages', label: 'Системный чат', icon: 'MessageSquare' },
     { id: 'numbers', label: 'Важные номера', icon: 'Phone' },
-    { id: 'transit', label: 'Транспорт', icon: 'Bus' },
+    { id: 'transportSchedule', label: 'Расписание транспорта', icon: 'Bus' },
+    { id: 'transit', label: 'Диспетчеры', icon: 'Phone' },
     { id: 'help', label: 'Помощь', icon: 'Heart' },
     { id: 'schedule', label: 'Режим работы', icon: 'Clock' },
     { id: 'pvz', label: 'ПВЗ', icon: 'Package' }
@@ -192,7 +198,7 @@ const AdminPanel = () => {
                   Админ-панель
                 </h1>
                 <p className="text-gray-600 mt-1 flex items-center gap-2">
-                  <span>Управление контентом Горхон.Online</span>
+                  <span>Управление контентом НАШ чат</span>
                   {!isOnline && (
                     <span className="flex items-center gap-1 px-2 py-0.5 bg-orange-100 text-orange-600 rounded-full text-xs font-medium">
                       <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
@@ -213,7 +219,7 @@ const AdminPanel = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mb-6">
           {tabs.map(tab => (
             <button
               key={tab.id}
@@ -257,6 +263,13 @@ const AdminPanel = () => {
               setImportantNumbers={setImportantNumbers}
               addItem={addItem}
               removeItem={removeItem}
+            />
+          )}
+
+          {activeTab === 'transportSchedule' && (
+            <TransportScheduleTab
+              data={transportSchedule}
+              setData={setTransportSchedule}
             />
           )}
 

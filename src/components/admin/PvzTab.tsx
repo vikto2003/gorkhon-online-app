@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { PvzItem } from './types';
 
@@ -28,44 +29,121 @@ const PvzTab = ({
       <CardContent className="space-y-4 p-6">
         {pvzItems.map((item, idx) => (
           <div key={idx} className="bg-white rounded-xl p-4 border-2 border-gray-100 hover:border-indigo-300 transition-all space-y-3">
-            <Input
-              placeholder="Название ПВЗ"
-              value={item.name}
-              onChange={(e) => {
-                const updated = [...pvzItems];
-                updated[idx].name = e.target.value;
-                setPvzItems(updated);
-              }}
-            />
-            <Input
-              placeholder="Адрес"
-              value={item.address}
-              onChange={(e) => {
-                const updated = [...pvzItems];
-                updated[idx].address = e.target.value;
-                setPvzItems(updated);
-              }}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Input
+                placeholder="Название ПВЗ (Wildberries, OZON...)"
+                value={item.name}
+                onChange={(e) => {
+                  const updated = [...pvzItems];
+                  updated[idx] = { ...updated[idx], name: e.target.value };
+                  setPvzItems(updated);
+                }}
+              />
+              <Input
+                placeholder="Адрес"
+                value={item.address}
+                onChange={(e) => {
+                  const updated = [...pvzItems];
+                  updated[idx] = { ...updated[idx], address: e.target.value };
+                  setPvzItems(updated);
+                }}
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <Input
                 placeholder="Режим работы"
                 value={item.schedule}
                 onChange={(e) => {
                   const updated = [...pvzItems];
-                  updated[idx].schedule = e.target.value;
+                  updated[idx] = { ...updated[idx], schedule: e.target.value };
                   setPvzItems(updated);
                 }}
               />
               <Input
-                placeholder="Телефон"
+                placeholder="Телефон (необязательно)"
                 value={item.phone}
                 onChange={(e) => {
                   const updated = [...pvzItems];
-                  updated[idx].phone = e.target.value;
+                  updated[idx] = { ...updated[idx], phone: e.target.value };
                   setPvzItems(updated);
                 }}
               />
             </div>
+            <Textarea
+              placeholder="Описание / как добраться / примерочные"
+              value={item.note || ''}
+              onChange={(e) => {
+                const updated = [...pvzItems];
+                updated[idx] = { ...updated[idx], note: e.target.value };
+                setPvzItems(updated);
+              }}
+              rows={2}
+            />
+            <Input
+              placeholder="Ссылка на чат ПВЗ в Telegram (необязательно)"
+              value={item.chatLink || ''}
+              onChange={(e) => {
+                const updated = [...pvzItems];
+                updated[idx] = { ...updated[idx], chatLink: e.target.value };
+                setPvzItems(updated);
+              }}
+            />
+
+            <div className="space-y-2">
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Фотографии</p>
+              {(item.photos || []).map((photo, pIdx) => (
+                <div key={pIdx} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_36px] gap-2 items-start">
+                  <Input
+                    placeholder="Ссылка на фото (URL)"
+                    value={photo.url}
+                    onChange={(e) => {
+                      const updated = [...pvzItems];
+                      const photos = [...(updated[idx].photos || [])];
+                      photos[pIdx] = { ...photos[pIdx], url: e.target.value };
+                      updated[idx] = { ...updated[idx], photos };
+                      setPvzItems(updated);
+                    }}
+                  />
+                  <Input
+                    placeholder="Подпись к фото"
+                    value={photo.caption}
+                    onChange={(e) => {
+                      const updated = [...pvzItems];
+                      const photos = [...(updated[idx].photos || [])];
+                      photos[pIdx] = { ...photos[pIdx], caption: e.target.value };
+                      updated[idx] = { ...updated[idx], photos };
+                      setPvzItems(updated);
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      const updated = [...pvzItems];
+                      updated[idx] = { ...updated[idx], photos: (updated[idx].photos || []).filter((_, i) => i !== pIdx) };
+                      setPvzItems(updated);
+                    }}
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-400 hover:text-red-600 hover:bg-red-50"
+                  >
+                    <Icon name="X" size={14} />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                onClick={() => {
+                  const updated = [...pvzItems];
+                  updated[idx] = { ...updated[idx], photos: [...(updated[idx].photos || []), { url: '', caption: '' }] };
+                  setPvzItems(updated);
+                }}
+                variant="outline"
+                size="sm"
+                className="border-dashed"
+              >
+                <Icon name="Plus" size={14} className="mr-1" />
+                Добавить фото
+              </Button>
+            </div>
+
             <div className="flex justify-end">
               <Button
                 onClick={() => removeItem('pvz', idx)}
@@ -74,7 +152,7 @@ const PvzTab = ({
                 className="text-red-500 hover:text-red-700 hover:bg-red-50"
               >
                 <Icon name="Trash2" size={16} className="mr-1" />
-                Удалить
+                Удалить ПВЗ
               </Button>
             </div>
           </div>

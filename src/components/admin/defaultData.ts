@@ -1,4 +1,4 @@
-import { ImportantNumber, WorkScheduleItem, PvzItem, HelpItem } from './types';
+import { ImportantNumber, WorkScheduleItem, PvzItem, HelpItem, TransportScheduleData } from './types';
 
 export const getDefaultNumbers = (): ImportantNumber[] => [
   { name: "Участковый", person: "Бадмаев Баир Баторович", phone: "+7 (924) 754-32-18", icon: "Shield" },
@@ -49,11 +49,103 @@ export const getDefaultSchedule = (): WorkScheduleItem[] => [
 
 export const getDefaultPvz = (): PvzItem[] => [
   {
-    name: "Wildberries ПВЗ",
-    address: "ул. Центральная, 1",
-    schedule: "Пн-Вс: 10:00-20:00",
-    phone: "89012345678",
+    name: "Wildberries",
+    address: "пос. Лесозаводской, ул. Трудовая, 12",
+    schedule: "Ежедневно: 10:00-20:00",
+    phone: "",
     hasFitting: true,
-    photos: []
+    note: "Пункт выдачи заказов находится в центре посёлка Лесозаводской, напротив школы. Удобная парковка. Будем рады видеть Вас в нашем ПВЗ!",
+    chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
+    icon: "Package",
+    photos: [
+      { url: "https://cdn.poehali.dev/files/effd940b-46bf-46ab-b102-56fc7574bce1.png", caption: "Вход в ПВЗ Wildberries" },
+      { url: "https://cdn.poehali.dev/files/db11a90a-322e-4e28-acdb-1230afb19cf1.png", caption: "Интерьер ПВЗ Wildberries" },
+      { url: "https://cdn.poehali.dev/files/dd085655-24de-4ab0-8877-256127c92015.png", caption: "Зона обслуживания ПВЗ Wildberries" },
+      { url: "https://cdn.poehali.dev/files/93fc597d-3650-43d1-ad6c-7ce489b8e9c8.png", caption: "Примерочные кабины ПВЗ Wildberries" }
+    ]
+  },
+  {
+    name: "OZON",
+    address: "пос. Лесозаводской, ул. Трудовая, 12",
+    schedule: "Ежедневно: 10:00-20:00",
+    phone: "",
+    hasFitting: true,
+    note: "Пункт выдачи заказов находится напротив школы, рядом со зданием бывшей амбулатории, ориентир — вывеска Ozon. До встречи на Ozon!",
+    chatLink: "https://t.me/+dB_KdSKhVc43NmEy",
+    icon: "Package",
+    photos: [
+      { url: "https://cdn.poehali.dev/files/4cb01698-d8de-4264-b9bc-e863b3667eb4.jpg", caption: "Фасад здания с ПВЗ OZON" },
+      { url: "https://cdn.poehali.dev/files/528564ea-ccc2-46de-be3b-2faec284f4ea.jpg", caption: "Рабочее место ПВЗ OZON" },
+      { url: "https://cdn.poehali.dev/files/25a0c47e-7995-4c0b-a44e-440b27806401.jpg", caption: "Примерочные кабины ПВЗ OZON" }
+    ]
+  },
+  {
+    name: "OZON",
+    address: "посёлок Горхон, ул. Железнодорожная, 31/2",
+    schedule: "Ежедневно: 10:00 – 19:00",
+    phone: "",
+    hasFitting: false,
+    note: "Пос. Горхон, ул. Железнодорожная, 31/2, продуктовый магазин «Татьяна», ориентир — вывеска Ozon. До встречи на Ozon!",
+    icon: "Package",
+    photos: [
+      { url: "https://cdn.poehali.dev/files/69129961-1abb-4f9d-add3-302072129183.png", caption: "ПВЗ OZON, посёлок Горхон, ул. Железнодорожная, 31/2. Автор: Команда Горхон" }
+    ]
+  },
+  {
+    name: "Wildberries",
+    address: "п. Горхон, ул. Железнодорожная, д. 15",
+    schedule: "Пн, Ср-Пт: 09:00-17:00 (перерыв 13:00-14:00), Сб: 09:00-16:00 (перерыв 13:00-14:00), Вт, Вс: выходной",
+    phone: "",
+    hasFitting: false,
+    note: "ПВЗ находится в отделении почты 671333",
+    icon: "Package",
+    photos: [
+      { url: "https://cdn.poehali.dev/files/aec305dc-bf96-4997-83aa-fdb9be3bfd4c.jpg", caption: "ПВЗ Wildberries, ул. Железнодорожная, 15" }
+    ]
   }
 ];
+
+export const getDefaultTransportSchedule = (): TransportScheduleData => ({
+  regular: [
+    {
+      type: "🚌 Автобус",
+      routes: [
+        { route: "Горхон → УУ", time: "7:00 (ПН-ПТ)", price: "500₽" },
+        { route: "Горхон → УУ", time: "8:00 (СБ-ВС, 16:30 ВС студ.)", price: "500₽" },
+        { route: "Горхон → Заиграево", time: "7:00, 14:15 (ПН-ПТ)", price: "290₽" },
+        { route: "Заиграево → Горхон", time: "13:00, вечером городской", price: "290₽" }
+      ]
+    },
+    {
+      type: "🚞 Электричка",
+      routes: [
+        { route: "Горхон → УУ", time: "05:32 (ПН)", price: "296₽" },
+        { route: "Горхон → УУ", time: "09:27 (СБ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "17:40 (ПТ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "08:35 (ВС)", price: "296₽" }
+      ]
+    }
+  ],
+  temporary: [
+    {
+      type: "🚌 Автобус (временное расписание)",
+      routes: [
+        { route: "Горхон → УУ", time: "7:00 (ПН-ПТ)", price: "500₽" },
+        { route: "Горхон → УУ", time: "8:00 (СБ-ВС, 16:30 ВС студ.)", price: "500₽" },
+        { route: "Горхон → Заиграево", time: "Городской по расписанию", price: "290₽" },
+        { route: "Заиграево → Горхон", time: "13:00 (только ПН, СР, ПТ)", price: "290₽" }
+      ]
+    },
+    {
+      type: "🚞 Электричка",
+      routes: [
+        { route: "Горхон → УУ", time: "05:32 (ПН)", price: "296₽" },
+        { route: "Горхон → УУ", time: "09:27 (СБ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "17:40 (ПТ)", price: "296₽" },
+        { route: "УУ → Горхон", time: "08:35 (ВС)", price: "296₽" }
+      ]
+    }
+  ],
+  temporaryNoticeTitle: "⚠️ Временные изменения",
+  temporaryNoticeText: "Маршрут Заиграево → Горхон временно сократили количество рейсов. Вместо 5 раз в неделю, будет ходить 3 раза в неделю (понедельник, среда, пятница). Не забудьте, кто планирует поездку!"
+});
