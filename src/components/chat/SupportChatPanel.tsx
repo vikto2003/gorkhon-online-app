@@ -125,12 +125,20 @@ const SupportChatPanel = () => {
   return (
     <div className="flex flex-col h-full bg-white">
       <div className="flex items-center gap-3 p-4 border-b border-wb-gray-200 flex-shrink-0">
-        <div className="w-10 h-10 rounded-full bg-wb-purple flex items-center justify-center flex-shrink-0">
-          <Icon name="Headphones" size={19} className="text-white" />
+        <div className="relative flex-shrink-0">
+          <img
+            src="https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/files/e16ab677-9c6a-4c42-b702-71df32e35b5c.jpg"
+            alt="Поддержка"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+          <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></span>
         </div>
         <div>
-          <h3 className="font-semibold text-wb-gray-900 text-sm">Агент поддержки</h3>
-          <p className="text-xs text-green-600">В сети</p>
+          <div className="flex items-center gap-1">
+            <h3 className="font-semibold text-wb-gray-900 text-sm">Поддержка</h3>
+            <Icon name="BadgeCheck" size={14} className="text-wb-purple flex-shrink-0" />
+          </div>
+          <p className="text-xs text-green-600">в сети</p>
         </div>
       </div>
 

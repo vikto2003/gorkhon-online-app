@@ -78,11 +78,11 @@ const NotificationBell = ({ currentVersion, onNotificationsClick }: Notification
       className={`relative ${isShaking ? 'animate-bounce' : ''} ${hasUpdate ? 'text-gorkhon-orange' : 'text-wb-gray-600'}`}
       aria-label="Уведомления"
     >
-      <Icon name="Bell" size={20} />
+      <Icon name="Bell" size={22} />
       {hasUpdate && (
         <>
-          <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse border-2 border-white"></span>
-          <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+          <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-red-500 rounded-full animate-pulse border-2 border-white"></span>
+          <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-red-500 rounded-full animate-ping"></span>
         </>
       )}
     </Button>

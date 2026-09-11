@@ -315,17 +315,25 @@ const ChatModal = ({ isOpen, onClose, isSystemChat = false }: ChatModalProps) =>
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b bg-white">
-          <button onClick={onClose} className="text-gorkhon-pink hover:bg-gray-100 p-2 rounded-lg transition-colors">
+        <div className="flex items-center gap-3 p-4 border-b bg-white">
+          <button onClick={onClose} className="text-gorkhon-pink hover:bg-gray-100 p-2 -ml-2 rounded-lg transition-colors flex-shrink-0">
             <Icon name="ChevronLeft" size={20} />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-full bg-wb-purple flex items-center justify-center">
-              <Icon name="Headphones" size={18} className="text-white" />
-            </div>
-            <h3 className="font-semibold text-gray-900 text-base">Поддержка</h3>
+          <div className="relative flex-shrink-0">
+            <img
+              src="https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/files/e16ab677-9c6a-4c42-b702-71df32e35b5c.jpg"
+              alt="Поддержка"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></span>
           </div>
-          <div className="w-10"></div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1">
+              <h3 className="font-semibold text-gray-900 text-base truncate">Поддержка</h3>
+              <Icon name="BadgeCheck" size={16} className="text-wb-purple flex-shrink-0" />
+            </div>
+            <p className="text-xs text-green-600">в сети</p>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto bg-white">

@@ -38,66 +38,66 @@ interface NotificationsPanelProps {
   onUpdateClick: () => void;
 }
 
-// Отдельная вкладка «Уведомления», открывается по клику на колокольчик.
-// Показывает системные уведомления и быстрый доступ к чату поддержки.
+// Отдельный полноэкранный раздел «Уведомления», открывается по клику на колокольчик —
+// ведёт себя как переход на отдельную вкладку, а не всплывающее окно.
 const NotificationsPanel = ({ isOpen, onClose, onOpenSupport, onUpdateClick }: NotificationsPanelProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/50" onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-wb-gray-50 flex flex-col animate-fade-in">
       <div
-        className="bg-white rounded-t-2xl md:rounded-2xl w-full md:w-[440px] h-[92vh] md:h-auto md:max-h-[80vh] flex flex-col shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 0px)' }}
+        className="flex items-center gap-3 p-4 border-b border-wb-gray-200 bg-white flex-shrink-0"
+        style={{ paddingTop: 'max(env(safe-area-inset-top, 0px), 16px)' }}
       >
-        <div className="flex items-center justify-between p-4 border-b border-wb-gray-200 flex-shrink-0">
-          <h3 className="font-semibold text-wb-gray-900 text-base flex items-center gap-2">
-            <Icon name="Bell" size={20} className="text-wb-purple" />
-            Уведомления
-          </h3>
-          <button onClick={onClose} className="text-wb-gray-500 hover:bg-wb-gray-100 p-2 rounded-lg transition-colors">
-            <Icon name="X" size={20} />
-          </button>
-        </div>
+        <button onClick={onClose} className="text-wb-gray-600 hover:bg-wb-gray-100 p-2 -ml-2 rounded-lg transition-colors">
+          <Icon name="ChevronLeft" size={22} />
+        </button>
+        <h3 className="font-semibold text-wb-gray-900 text-lg flex items-center gap-2">
+          <Icon name="Bell" size={20} className="text-wb-purple" />
+          Уведомления
+        </h3>
+      </div>
 
-        <div className="flex-1 overflow-y-auto">
-          {notifications.map((n) => (
-            <button
-              key={n.id}
-              onClick={n.id === 'update' ? onUpdateClick : undefined}
-              className="w-full flex items-start gap-3 p-4 text-left hover:bg-wb-gray-50 transition-colors border-b border-wb-gray-100"
-            >
-              <div className={`p-2.5 rounded-full ${n.iconBg} flex-shrink-0`}>
-                <Icon name={n.icon as any} size={18} className={n.iconColor} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="font-semibold text-sm text-wb-gray-900">{n.title}</p>
-                  <span className="text-[11px] text-wb-gray-400 flex-shrink-0">{n.time}</span>
-                </div>
-                <p className="text-sm text-wb-gray-600 leading-relaxed mt-0.5">{n.body}</p>
-              </div>
-            </button>
-          ))}
-
-          {notifications.length === 0 && (
-            <div className="p-10 text-center text-sm text-wb-gray-400">Нет новых уведомлений</div>
-          )}
-        </div>
-
-        <div className="p-4 border-t border-wb-gray-200 flex-shrink-0">
+      <div className="flex-1 overflow-y-auto">
+        {notifications.map((n) => (
           <button
-            onClick={onOpenSupport}
-            className="w-full flex items-center gap-3 p-3 rounded-xl bg-wb-purple hover:bg-wb-purple-dark text-white transition-colors"
+            key={n.id}
+            onClick={n.id === 'update' ? onUpdateClick : undefined}
+            className="w-full flex items-start gap-3 p-4 text-left bg-white hover:bg-wb-gray-50 active:bg-wb-gray-50 transition-colors border-b border-wb-gray-100"
           >
-            <Icon name="Headphones" size={20} />
-            <div className="flex-1 text-left">
-              <p className="text-sm font-semibold">Написать в поддержку</p>
-              <p className="text-xs opacity-90">Ответим на вопросы и поможем 24/7</p>
+            <div className={`p-2.5 rounded-full ${n.iconBg} flex-shrink-0`}>
+              <Icon name={n.icon as any} size={18} className={n.iconColor} />
             </div>
-            <Icon name="ChevronRight" size={18} className="opacity-70" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2">
+                <p className="font-semibold text-sm text-wb-gray-900">{n.title}</p>
+                <span className="text-[11px] text-wb-gray-400 flex-shrink-0">{n.time}</span>
+              </div>
+              <p className="text-sm text-wb-gray-600 leading-relaxed mt-0.5">{n.body}</p>
+            </div>
           </button>
-        </div>
+        ))}
+
+        {notifications.length === 0 && (
+          <div className="p-10 text-center text-sm text-wb-gray-400">Нет новых уведомлений</div>
+        )}
+      </div>
+
+      <div
+        className="p-4 border-t border-wb-gray-200 bg-white flex-shrink-0"
+        style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 16px)' }}
+      >
+        <button
+          onClick={onOpenSupport}
+          className="w-full flex items-center gap-3 p-3 rounded-xl bg-wb-purple hover:bg-wb-purple-dark text-white transition-colors"
+        >
+          <Icon name="Headphones" size={20} />
+          <div className="flex-1 text-left">
+            <p className="text-sm font-semibold">Написать в поддержку</p>
+            <p className="text-xs opacity-90">Ответим на вопросы и поможем 24/7</p>
+          </div>
+          <Icon name="ChevronRight" size={18} className="opacity-70" />
+        </button>
       </div>
     </div>
   );
