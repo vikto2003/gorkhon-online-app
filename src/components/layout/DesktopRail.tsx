@@ -36,10 +36,15 @@ const DesktopRail = ({ activeTab, onTabChange, onSearchClick, chatsBadge = 0 }: 
     >
       <button
         onClick={() => handleClick('main')}
-        className="w-11 h-11 rounded-2xl bg-wb-purple flex items-center justify-center mb-4 flex-shrink-0 hover:bg-wb-purple-dark hover:scale-105 active:scale-95 transition-all duration-200"
+        className="w-11 h-11 rounded-2xl overflow-hidden mb-4 flex-shrink-0 hover:scale-105 active:scale-95 transition-all duration-200"
         aria-label="НАШ chat"
       >
-        <Icon name="MessageSquare" size={22} className="text-white" />
+        <img
+          src="https://cdn.poehali.dev/projects/80b27c13-e76f-4c17-9cd3-0ca13d96fc7a/bucket/7e47d2df-703e-473d-b7e5-4213140b12be.png"
+          alt="НАШ chat"
+          className="w-full h-full object-cover"
+          draggable={false}
+        />
       </button>
 
       <div className="flex flex-col items-center gap-1 flex-1">
